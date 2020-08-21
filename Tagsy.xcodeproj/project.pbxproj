@@ -1,0 +1,503 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 51;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2D12C76B24DB0C37004329D9 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D12C76A24DB0C37004329D9 /* AccountViewController.swift */; };
+		2D19F09224D72FD700DEA4D5 /* TagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D19F09124D72FD700DEA4D5 /* TagCell.swift */; };
+		2D19F09424D744C100DEA4D5 /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D19F09324D744C100DEA4D5 /* ItemViewController.swift */; };
+		2D1C215924ED6E8B00B25270 /* TagsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1C215824ED6E8B00B25270 /* TagsLayout.swift */; };
+		2D1C215B24ED6ED600B25270 /* PubFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1C215A24ED6ED600B25270 /* PubFunc.swift */; };
+		2D1C215D24ED6EDD00B25270 /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1C215C24ED6EDD00B25270 /* Styles.swift */; };
+		2D28401024DC6E6000D0FDD8 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D28400F24DC6E6000D0FDD8 /* TabBarViewController.swift */; };
+		2D28401224DC6F6000D0FDD8 /* TagMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D28401124DC6F6000D0FDD8 /* TagMapViewController.swift */; };
+		2D2E31AB24E492470075FDAB /* LocationSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2E31AA24E492470075FDAB /* LocationSearchViewController.swift */; };
+		2D4123D524D65295000DD3A7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D4123D424D65295000DD3A7 /* AppDelegate.swift */; };
+		2D4123D724D65295000DD3A7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D4123D624D65295000DD3A7 /* SceneDelegate.swift */; };
+		2D4123D924D65295000DD3A7 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D4123D824D65295000DD3A7 /* ListViewController.swift */; };
+		2D4123DC24D65295000DD3A7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D4123DA24D65295000DD3A7 /* Main.storyboard */; };
+		2D4123DE24D6529A000DD3A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D4123DD24D6529A000DD3A7 /* Assets.xcassets */; };
+		2D4123E124D6529A000DD3A7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D4123DF24D6529A000DD3A7 /* LaunchScreen.storyboard */; };
+		2D4123EA24D652DD000DD3A7 /* TagList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D4123E924D652DD000DD3A7 /* TagList.swift */; };
+		2D4559E724D87CA4004F2B26 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2D4559E624D87CA4004F2B26 /* GoogleService-Info.plist */; };
+		2D4559E924D88D13004F2B26 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D4559E824D88D13004F2B26 /* LoginViewController.swift */; };
+		2D4559EC24D8E041004F2B26 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D4559EB24D8E041004F2B26 /* User.swift */; };
+		2D5F7B5824E441B7002C37C3 /* SendPublicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5F7B5724E441B7002C37C3 /* SendPublicViewController.swift */; };
+		2D66306724E1E07D0056B498 /* TagMapDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D66306624E1E07D0056B498 /* TagMapDetailViewController.swift */; };
+		2DE5177524E2CC450096A1B0 /* ListLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DE5177424E2CC450096A1B0 /* ListLocation.swift */; };
+		2DE5177724E32DD80096A1B0 /* Notes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DE5177624E32DD80096A1B0 /* Notes.swift */; };
+		481F3F1F66E1DB75333A8F00 /* libPods-Tagsy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DCFA980845A67EBE20284A51 /* libPods-Tagsy.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		2D12C76A24DB0C37004329D9 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
+		2D19F09124D72FD700DEA4D5 /* TagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCell.swift; sourceTree = "<group>"; };
+		2D19F09324D744C100DEA4D5 /* ItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
+		2D1C215824ED6E8B00B25270 /* TagsLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagsLayout.swift; sourceTree = "<group>"; };
+		2D1C215A24ED6ED600B25270 /* PubFunc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PubFunc.swift; sourceTree = "<group>"; };
+		2D1C215C24ED6EDD00B25270 /* Styles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
+		2D28400F24DC6E6000D0FDD8 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		2D28401124DC6F6000D0FDD8 /* TagMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagMapViewController.swift; sourceTree = "<group>"; };
+		2D2E31AA24E492470075FDAB /* LocationSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchViewController.swift; sourceTree = "<group>"; };
+		2D4123D124D65295000DD3A7 /* Tagsy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tagsy.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D4123D424D65295000DD3A7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		2D4123D624D65295000DD3A7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		2D4123D824D65295000DD3A7 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
+		2D4123DB24D65295000DD3A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		2D4123DD24D6529A000DD3A7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2D4123E024D6529A000DD3A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		2D4123E224D6529A000DD3A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2D4123E924D652DD000DD3A7 /* TagList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagList.swift; sourceTree = "<group>"; };
+		2D4559E624D87CA4004F2B26 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		2D4559E824D88D13004F2B26 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		2D4559EA24D894E3004F2B26 /* Tagsy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Tagsy.entitlements; sourceTree = "<group>"; };
+		2D4559EB24D8E041004F2B26 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		2D5F7B5724E441B7002C37C3 /* SendPublicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendPublicViewController.swift; sourceTree = "<group>"; };
+		2D66306624E1E07D0056B498 /* TagMapDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagMapDetailViewController.swift; sourceTree = "<group>"; };
+		2DE5177424E2CC450096A1B0 /* ListLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ListLocation.swift; path = Tagsy/Models/ListLocation.swift; sourceTree = SOURCE_ROOT; };
+		2DE5177624E32DD80096A1B0 /* Notes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notes.swift; sourceTree = "<group>"; };
+		BFB038DDAB6D8948A91790BC /* Pods-Tagsy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tagsy.release.xcconfig"; path = "Target Support Files/Pods-Tagsy/Pods-Tagsy.release.xcconfig"; sourceTree = "<group>"; };
+		DCFA980845A67EBE20284A51 /* libPods-Tagsy.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Tagsy.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FEE8D4F8A7E92A18D4208BE5 /* Pods-Tagsy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tagsy.debug.xcconfig"; path = "Target Support Files/Pods-Tagsy/Pods-Tagsy.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2D4123CE24D65295000DD3A7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				481F3F1F66E1DB75333A8F00 /* libPods-Tagsy.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1147159E74DA1BAA647F2A7E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DCFA980845A67EBE20284A51 /* libPods-Tagsy.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2D4123C824D65295000DD3A7 = {
+			isa = PBXGroup;
+			children = (
+				2D4123D324D65295000DD3A7 /* Tagsy */,
+				2D4123D224D65295000DD3A7 /* Products */,
+				E9E63473904BA5CFAE2F642C /* Pods */,
+				1147159E74DA1BAA647F2A7E /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		2D4123D224D65295000DD3A7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2D4123D124D65295000DD3A7 /* Tagsy.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2D4123D324D65295000DD3A7 /* Tagsy */ = {
+			isa = PBXGroup;
+			children = (
+				2D4559EA24D894E3004F2B26 /* Tagsy.entitlements */,
+				2D4123EB24D653F5000DD3A7 /* Controllers */,
+				2D4123E824D652C1000DD3A7 /* Models */,
+				2D4123D424D65295000DD3A7 /* AppDelegate.swift */,
+				2D4123D624D65295000DD3A7 /* SceneDelegate.swift */,
+				2D4123DA24D65295000DD3A7 /* Main.storyboard */,
+				2D4123DD24D6529A000DD3A7 /* Assets.xcassets */,
+				2D4123DF24D6529A000DD3A7 /* LaunchScreen.storyboard */,
+				2D4123E224D6529A000DD3A7 /* Info.plist */,
+				2D4559E624D87CA4004F2B26 /* GoogleService-Info.plist */,
+			);
+			path = Tagsy;
+			sourceTree = "<group>";
+		};
+		2D4123E824D652C1000DD3A7 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				2D1C215824ED6E8B00B25270 /* TagsLayout.swift */,
+				2D4123E924D652DD000DD3A7 /* TagList.swift */,
+				2D4559EB24D8E041004F2B26 /* User.swift */,
+				2DE5177424E2CC450096A1B0 /* ListLocation.swift */,
+				2D1C215A24ED6ED600B25270 /* PubFunc.swift */,
+				2D1C215C24ED6EDD00B25270 /* Styles.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		2D4123EB24D653F5000DD3A7 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				2D4123D824D65295000DD3A7 /* ListViewController.swift */,
+				2D28400F24DC6E6000D0FDD8 /* TabBarViewController.swift */,
+				2D19F09324D744C100DEA4D5 /* ItemViewController.swift */,
+				2D28401124DC6F6000D0FDD8 /* TagMapViewController.swift */,
+				2D66306624E1E07D0056B498 /* TagMapDetailViewController.swift */,
+				2D19F09124D72FD700DEA4D5 /* TagCell.swift */,
+				2D4559E824D88D13004F2B26 /* LoginViewController.swift */,
+				2D12C76A24DB0C37004329D9 /* AccountViewController.swift */,
+				2D5F7B5724E441B7002C37C3 /* SendPublicViewController.swift */,
+				2D2E31AA24E492470075FDAB /* LocationSearchViewController.swift */,
+				2DE5177624E32DD80096A1B0 /* Notes.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		E9E63473904BA5CFAE2F642C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FEE8D4F8A7E92A18D4208BE5 /* Pods-Tagsy.debug.xcconfig */,
+				BFB038DDAB6D8948A91790BC /* Pods-Tagsy.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2D4123D024D65295000DD3A7 /* Tagsy */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2D4123E524D6529A000DD3A7 /* Build configuration list for PBXNativeTarget "Tagsy" */;
+			buildPhases = (
+				7F43650372D7ED8B507A2051 /* [CP] Check Pods Manifest.lock */,
+				2D4123CD24D65295000DD3A7 /* Sources */,
+				2D4123CE24D65295000DD3A7 /* Frameworks */,
+				2D4123CF24D65295000DD3A7 /* Resources */,
+				31383C32CFFF8CE3B79EA6AC /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Tagsy;
+			productName = Tagsy;
+			productReference = 2D4123D124D65295000DD3A7 /* Tagsy.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2D4123C924D65295000DD3A7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1150;
+				LastUpgradeCheck = 1150;
+				ORGANIZATIONNAME = "Trevor Pennington";
+				TargetAttributes = {
+					2D4123D024D65295000DD3A7 = {
+						CreatedOnToolsVersion = 11.5;
+					};
+				};
+			};
+			buildConfigurationList = 2D4123CC24D65295000DD3A7 /* Build configuration list for PBXProject "Tagsy" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 2D4123C824D65295000DD3A7;
+			productRefGroup = 2D4123D224D65295000DD3A7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2D4123D024D65295000DD3A7 /* Tagsy */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2D4123CF24D65295000DD3A7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2D4559E724D87CA4004F2B26 /* GoogleService-Info.plist in Resources */,
+				2D4123E124D6529A000DD3A7 /* LaunchScreen.storyboard in Resources */,
+				2D4123DE24D6529A000DD3A7 /* Assets.xcassets in Resources */,
+				2D4123DC24D65295000DD3A7 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		31383C32CFFF8CE3B79EA6AC /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Tagsy/Pods-Tagsy-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Tagsy/Pods-Tagsy-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Tagsy/Pods-Tagsy-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7F43650372D7ED8B507A2051 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Tagsy-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2D4123CD24D65295000DD3A7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2D4559E924D88D13004F2B26 /* LoginViewController.swift in Sources */,
+				2D5F7B5824E441B7002C37C3 /* SendPublicViewController.swift in Sources */,
+				2D28401224DC6F6000D0FDD8 /* TagMapViewController.swift in Sources */,
+				2D19F09424D744C100DEA4D5 /* ItemViewController.swift in Sources */,
+				2D4123EA24D652DD000DD3A7 /* TagList.swift in Sources */,
+				2D4123D924D65295000DD3A7 /* ListViewController.swift in Sources */,
+				2D1C215924ED6E8B00B25270 /* TagsLayout.swift in Sources */,
+				2D4559EC24D8E041004F2B26 /* User.swift in Sources */,
+				2D19F09224D72FD700DEA4D5 /* TagCell.swift in Sources */,
+				2D66306724E1E07D0056B498 /* TagMapDetailViewController.swift in Sources */,
+				2D4123D524D65295000DD3A7 /* AppDelegate.swift in Sources */,
+				2D1C215B24ED6ED600B25270 /* PubFunc.swift in Sources */,
+				2DE5177524E2CC450096A1B0 /* ListLocation.swift in Sources */,
+				2D1C215D24ED6EDD00B25270 /* Styles.swift in Sources */,
+				2DE5177724E32DD80096A1B0 /* Notes.swift in Sources */,
+				2D4123D724D65295000DD3A7 /* SceneDelegate.swift in Sources */,
+				2D2E31AB24E492470075FDAB /* LocationSearchViewController.swift in Sources */,
+				2D28401024DC6E6000D0FDD8 /* TabBarViewController.swift in Sources */,
+				2D12C76B24DB0C37004329D9 /* AccountViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		2D4123DA24D65295000DD3A7 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2D4123DB24D65295000DD3A7 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		2D4123DF24D6529A000DD3A7 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2D4123E024D6529A000DD3A7 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		2D4123E324D6529A000DD3A7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		2D4123E424D6529A000DD3A7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2D4123E624D6529A000DD3A7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FEE8D4F8A7E92A18D4208BE5 /* Pods-Tagsy.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Tagsy/Tagsy.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = L6NF34PSJ2;
+				INFOPLIST_FILE = Tagsy/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.TrevorPennington.Tagsy;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2D4123E724D6529A000DD3A7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BFB038DDAB6D8948A91790BC /* Pods-Tagsy.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Tagsy/Tagsy.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = L6NF34PSJ2;
+				INFOPLIST_FILE = Tagsy/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.TrevorPennington.Tagsy;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2D4123CC24D65295000DD3A7 /* Build configuration list for PBXProject "Tagsy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2D4123E324D6529A000DD3A7 /* Debug */,
+				2D4123E424D6529A000DD3A7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2D4123E524D6529A000DD3A7 /* Build configuration list for PBXNativeTarget "Tagsy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2D4123E624D6529A000DD3A7 /* Debug */,
+				2D4123E724D6529A000DD3A7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2D4123C924D65295000DD3A7 /* Project object */;
+}

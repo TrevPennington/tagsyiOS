@@ -1,0 +1,9 @@
+target 'Tagsy' do
+platform :ios, '13.5'
+
+pod 'Firebase'
+pod 'Firebase/Core'
+pod 'Firebase/Firestore'
+pod 'Firebase/Auth'
+
+end
