@@ -246,8 +246,50 @@ class ItemViewController: UIViewController, UIGestureRecognizerDelegate, UIPicke
     func submitButtonTapped(_ sender: Any) {
         //put title text into list.title
         if allTags.count > 1 { //always be 9
+            //let viewController = SendPublicViewController() //make this legit
+            
+            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let viewController = storyBoard.instantiateViewController(withIdentifier: "SendPublicViewController") as! SendPublicViewController
+
+        //MARK: CHECK FOR ADDING NEW LIST
+            if addingNewList {
+                //ADD THE NEW LIST TO FIREBASE
+                //DispatchQueue.main.async {
+                    if self.listItem.hashtags != [] || self.listTitle.text != "" {
+                        if self.listTitle.text == "" {
+                            self.listItem.title = "no title"
+                        }
+                        var newRef: DocumentReference? = nil
+                        newRef = self.ref.addDocument(data: [
+                            "title" : self.listItem.title,
+                            "tags" : self.listItem.hashtags,
+                            "mentions" : self.listItem.mentions
+                        ]) { err in
+                        if let err = err {
+                            print("Error adding document: \(err)")
+                        } else {
+                            print("Document added with ID: \(newRef!.documentID)")
+                            //add this id to listItem.key
+                            self.listItem.key = newRef!.documentID
+                            viewController.listItem = self.listItem
+                            print("from adding new list")
+                            print(self.listItem)
+                            self.addingNewList = false
+                            //MARK: NOW MOVE TO SENDPUB.
+                            //self.performSegue(withIdentifier: "SendPublicSegue", sender: self)
+                            //instead of segue, do it programatically
+                            self.navigationController?.pushViewController(viewController, animated: true)
+                        }
+                    }
+                  }
+            } else {
+                viewController.listItem = self.listItem
+                print("from editting list")
+                print(self.listItem)
+                self.navigationController?.pushViewController(viewController, animated: true)
+            }
         listItem.title = listTitle.text ?? "no title"
-        performSegue(withIdentifier: "SendPublicSegue", sender: self)
+        
         } else {
             alertUser(title: "must have at least 10 tags to submit!", sender: self)
         }
@@ -281,21 +323,7 @@ class ItemViewController: UIViewController, UIGestureRecognizerDelegate, UIPicke
         self.navigationController?.popViewController(animated: true)
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        //if adding new list, send to fb first and get the key?
 
-        let viewController = segue.destination as? SendPublicViewController
-        if addingNewList {
-                //do something to fix bug
-            viewController!.listItem = self.listItem
-            print("from adding new list")
-        } else {
-            viewController!.listItem = self.listItem
-            print("from editting list")
-        }
-        
-        print("THE LIST TIESF SDF IS \(listItem)")
-    }
 }
 //MARK: CollectionView
 

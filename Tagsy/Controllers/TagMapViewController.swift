@@ -130,7 +130,18 @@ class TagMapViewController: UIViewController, MKMapViewDelegate, UISearchBarDele
     
     
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
-
+                
+//        let center = CLLocationCoordinate2D(latitude: 38.573936, longitude: -92.603760) //center of USA, roughly. for example
+//        let latMeters = CLLocationDistance(10_000_000.00) //left and right pan
+//        let longMeters = CLLocationDistance(5_000_000.00) //up and down pan
+//        
+//        let coordinateRegion = MKCoordinateRegion(
+//            center: center,
+//            latitudinalMeters: latMeters,
+//            longitudinalMeters: longMeters)
+//        
+//        let cameraBoundary = MKMapView.CameraBoundary(coordinateRegion: coordinateRegion)
+//        mapView.setCameraBoundary(cameraBoundary, animated: true)
     }
 
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {

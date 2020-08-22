@@ -228,7 +228,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bZ9-Ra-oWJ">
-                                <rect key="frame" x="120" y="347" width="174" height="30"/>
+                                <rect key="frame" x="135" y="347" width="144" height="30"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="SUBMIT">
                                     <color key="titleColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
@@ -247,7 +247,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="91C-ry-1DB" firstAttribute="trailing" secondItem="2sB-pd-fMH" secondAttribute="trailing" constant="120" id="3c5-KJ-9ij"/>
-                            <constraint firstItem="bZ9-Ra-oWJ" firstAttribute="leading" secondItem="91C-ry-1DB" secondAttribute="leading" constant="120" id="7OP-cd-Yo5"/>
+                            <constraint firstItem="bZ9-Ra-oWJ" firstAttribute="leading" secondItem="91C-ry-1DB" secondAttribute="leading" constant="135" id="7OP-cd-Yo5"/>
                             <constraint firstItem="91C-ry-1DB" firstAttribute="trailing" secondItem="rTo-lF-fT5" secondAttribute="trailing" constant="25" id="7pA-4b-IkN"/>
                             <constraint firstItem="qmo-5l-kLc" firstAttribute="leading" secondItem="91C-ry-1DB" secondAttribute="leading" constant="94" id="9R9-86-CdE"/>
                             <constraint firstItem="Y1D-IM-ssg" firstAttribute="leading" secondItem="91C-ry-1DB" secondAttribute="leading" constant="120" id="Buh-Fr-yoe"/>
@@ -263,10 +263,11 @@
                             <constraint firstItem="Y1D-IM-ssg" firstAttribute="top" secondItem="91C-ry-1DB" secondAttribute="top" constant="60" id="bRz-dS-DTU"/>
                             <constraint firstItem="jya-JB-WZX" firstAttribute="leading" secondItem="91C-ry-1DB" secondAttribute="leading" id="bxe-lR-Z0h"/>
                             <constraint firstItem="2sB-pd-fMH" firstAttribute="leading" secondItem="91C-ry-1DB" secondAttribute="leading" constant="120" id="cga-1W-14F"/>
-                            <constraint firstItem="91C-ry-1DB" firstAttribute="trailing" secondItem="bZ9-Ra-oWJ" secondAttribute="trailing" constant="120" id="dey-xT-IoJ"/>
+                            <constraint firstItem="91C-ry-1DB" firstAttribute="trailing" secondItem="bZ9-Ra-oWJ" secondAttribute="trailing" constant="135" id="dey-xT-IoJ"/>
                             <constraint firstItem="91C-ry-1DB" firstAttribute="trailing" secondItem="Y1D-IM-ssg" secondAttribute="trailing" constant="120" id="e6f-Nr-b83"/>
                             <constraint firstItem="91C-ry-1DB" firstAttribute="trailing" secondItem="aMw-5H-I2N" secondAttribute="trailing" constant="100" id="gIR-GM-HKo"/>
                             <constraint firstItem="bZ9-Ra-oWJ" firstAttribute="top" secondItem="jya-JB-WZX" secondAttribute="bottom" constant="80" id="jVk-8z-qQc"/>
+                            <constraint firstItem="bZ9-Ra-oWJ" firstAttribute="centerX" secondItem="Hcf-Z4-PXA" secondAttribute="centerX" id="kXb-Ae-x1E"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="91C-ry-1DB"/>
                     </view>

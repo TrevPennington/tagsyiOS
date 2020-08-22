@@ -50,25 +50,36 @@ class LocationSearchViewController: UIViewController, UISearchBarDelegate {
                 return
             }
 
+//            for item in response.mapItems {
+//                print(item.placemark)
+//                //if item is in USA
+//                if item.placemark.countryCode == "US" && item.placemark.locality != nil && item.placemark.administrativeArea != nil {
+//                    //also if locality + admin isn't already in the results
+//                    self.searchResults.append(item.placemark)
+//
+//                }
             for item in response.mapItems {
-                print(item.placemark)
-                //if item is in USA
-                if item.placemark.countryCode == "US" && item.placemark.locality != nil && item.placemark.administrativeArea != nil {
-                    //also if locality + admin isn't already in the results
-                    self.searchResults.append(item.placemark)
-                    
-//                    for result in self.searchResults {
-//                        if result.locality == item.placemark.locality && result.administrativeArea == item.placemark.administrativeArea {
-//                            return
-//                        } else {
-//                            print("GOT EEM")
-//                            self.searchResults.append(item.placemark)
-//                            self.tableView.reloadData()
-//                        }
-//                    }
-                    
-                }
+            self.searchResults.append(item.placemark)
             }
+                
+//            self.searchResults = self.searchResults.filter { result in
+//                    if result.title?.contains(",") ?? false {
+//                        return false
+//                    }
+//
+//                    if result.title?.rangeOfCharacter(from: CharacterSet.decimalDigits) != nil {
+//                        return false
+//                    }
+//
+//                    if result.subtitle?.rangeOfCharacter(from: CharacterSet.decimalDigits) != nil {
+//                        return false
+//                    }
+//
+//                    return true
+//                }
+
+//                self.searchResultsCollectionView.reloadData()
+//            }
             
             self.tableView.reloadData()
         }
@@ -94,8 +105,8 @@ extension LocationSearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ResultCell", for: indexPath)
         let listItem = searchResults[indexPath.row]
-        
-        cell.textLabel?.text = listItem.locality
+        let stringedItem = listItem.title
+        cell.textLabel?.text = stringedItem
         cell.detailTextLabel?.text = listItem.administrativeArea
 
         return cell

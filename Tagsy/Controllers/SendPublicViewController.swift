@@ -25,7 +25,6 @@ class SendPublicViewController: UIViewController, LocationSearchViewControllerDe
     @IBOutlet var setLocation: UILabel!
     var locationSelected: MKPlacemark? {
         didSet {
-            print("Location set, activate button!")
                 submitButton.isEnabled = true
         }
     }
@@ -34,9 +33,7 @@ class SendPublicViewController: UIViewController, LocationSearchViewControllerDe
     var listItem = TagList(key: "", title: "", hashtags: [], mentions: [])
     
     @IBAction func titleChanged(_ sender: UITextField) {
-        print("CHANCKEGD ")
         if listTitle.text == "" {
-            print("disable button")
             submitButton.isEnabled = false
         }
     }
@@ -44,11 +41,12 @@ class SendPublicViewController: UIViewController, LocationSearchViewControllerDe
         super.viewDidLoad()
         
         submitButton.isEnabled = false
+        submitButton.layer.cornerRadius = 12.0
 
         details.text = "submitting will send to Tagsy for review. If selected, your list will be on TagMap with a link to your Instagram for 1 month."
         
         listTitle.text = listItem.title
-        
+        print("inside SEND now. listItem = \(listItem)")
 
     }
     
