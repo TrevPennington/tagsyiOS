@@ -19,8 +19,9 @@ class SendPublicViewController: UIViewController, LocationSearchViewControllerDe
 
     @IBOutlet weak var listTitle: UITextField!
     @IBOutlet weak var listAuthor: UITextField!
+    @IBOutlet weak var handleLabel: UILabel!
+    var submitButton: UIBarButtonItem!
     
-    @IBOutlet weak var submitButton: UIButton!
     @IBOutlet var details: UILabel!
     @IBOutlet var setLocation: UILabel!
     var locationSelected: MKPlacemark? {
@@ -40,8 +41,14 @@ class SendPublicViewController: UIViewController, LocationSearchViewControllerDe
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //MARK: Styling
+        listTitle.font = titleStyle
+        listAuthor.font = tagStyle
+        handleLabel.font = tagStyle
+        
+        submitButton = UIBarButtonItem(title: "submit", style: .plain, target: self, action: #selector(sendPublic))
+        navigationItem.setRightBarButton(submitButton, animated: true)
         submitButton.isEnabled = false
-        submitButton.layer.cornerRadius = 12.0
 
         details.text = "submitting will send to Tagsy for review. If selected, your list will be on TagMap with a link to your Instagram for 1 month."
         
@@ -60,7 +67,7 @@ class SendPublicViewController: UIViewController, LocationSearchViewControllerDe
     }
 
     //MARK: Send Button
-    @IBAction func sendPublic(_ sender: Any) {
+    @objc func sendPublic(_ sender: Any) {
         //format the local
         let latitude = locationSelected?.coordinate.latitude ?? 0.0
         let longitude = locationSelected?.coordinate.longitude ?? 0.0

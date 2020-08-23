@@ -15,6 +15,7 @@ class ItemViewController: UIViewController, UIGestureRecognizerDelegate, UIPicke
     
     @IBOutlet var listTitle: UITextField!
     @IBOutlet var addTag: UITextField!
+    @IBOutlet weak var pickerView: UIPickerView!
     @IBOutlet var collectionView: UICollectionView!
 
     @IBOutlet weak var tagsLayout: TagsLayout!
@@ -34,6 +35,11 @@ class ItemViewController: UIViewController, UIGestureRecognizerDelegate, UIPicke
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //MARK: Styling
+        listTitle.font = titleStyle
+        addTag.font = tagStyle
+       
         
         collectionView.collectionViewLayout = tagsLayout
         collectionView.delegate = self
@@ -146,9 +152,17 @@ class ItemViewController: UIViewController, UIGestureRecognizerDelegate, UIPicke
         return pickerItems.count
     }
     
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return "\(pickerItems[row])"
-    }
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        let label = (view as? UILabel) ?? UILabel()
+
+        label.textAlignment = .center
+        label.font = tagStyle
+
+        label.text = pickerItems[row]
+
+        return label
+      }
+    
     
     // Capture the picker view selection
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
@@ -347,7 +361,7 @@ extension ItemViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         //print("PHAIL THIS WON'T SHOW")
         let text = allTags[indexPath.row]
-        let font: UIFont = UIFont(name: "Baskerville", size: 14) ??  UIFont.systemFont(ofSize: 14.0) // set here font name and font size
+        let font: UIFont = UIFont(name: sansFont, size: 14) ??  UIFont.systemFont(ofSize: 14.0) // set here font name and font size
         let width = text.SizeOf(font).width
         return CGSize(width: width + 17.0, height: 22.0) // ADD width + space between text (for ex : 20.0)
         }

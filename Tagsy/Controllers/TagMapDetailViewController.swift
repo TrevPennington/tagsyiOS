@@ -27,6 +27,10 @@ class TagMapDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //MARK: Styling
+        listTitle.font = titleStyle
+        listAuthor.font = tagStyle
+        
         collectionView.collectionViewLayout = tagsLayout
         collectionView.delegate = self
 

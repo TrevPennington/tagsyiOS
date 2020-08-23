@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:/Users/trevorpennington/iOS/Tagsy/Tagsy/Models/ListViewCell.swift">
+   </FileRef>
+   <FileRef
       location = "group:Tagsy.xcodeproj">
    </FileRef>
    <FileRef

@@ -36,6 +36,7 @@ class TagCell: UICollectionViewCell {
         super.awakeFromNib()
         self.backgroundColor = background
         tagName.textColor = textHex
+        tagName.font = UIFont(name: sansFont, size: 14)
         
         contentView.translatesAutoresizingMaskIntoConstraints = false
         

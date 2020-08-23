@@ -97,10 +97,27 @@ class ListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell", for: indexPath) as! ListViewCell
         let listItem = items[indexPath.row]
         
-        cell.textLabel?.text = listItem.title
+        cell.cellTitle?.text = listItem.title
+
+        var tagsToCopy = [String]()
+        
+      
+            for hashtag in listItem.hashtags {
+                let hashtagToAdd = "#" + hashtag
+                tagsToCopy.append(hashtagToAdd)
+            }
+            for mention in listItem.mentions {
+                let mentionToAdd = "@" + mention
+                tagsToCopy.append(mentionToAdd)
+            }
+        
+        
+        cell.allTags = tagsToCopy
+        cell.sender = self
+        cell.listCopied = listItem.title
         
         return cell
     }
