@@ -29,6 +29,8 @@
 		2D5F7B5824E441B7002C37C3 /* SendPublicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5F7B5724E441B7002C37C3 /* SendPublicViewController.swift */; };
 		2D64B26B24F1BA0E00B15D18 /* ListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D64B26A24F1BA0E00B15D18 /* ListViewCell.swift */; };
 		2D66306724E1E07D0056B498 /* TagMapDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D66306624E1E07D0056B498 /* TagMapDetailViewController.swift */; };
+		2DCE53CA24F400120091CAA6 /* SubmitCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DCE53C924F400120091CAA6 /* SubmitCell.swift */; };
+		2DCE53CC24F401CC0091CAA6 /* SubmitFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DCE53CB24F401CC0091CAA6 /* SubmitFormItem.swift */; };
 		2DE5177524E2CC450096A1B0 /* ListLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DE5177424E2CC450096A1B0 /* ListLocation.swift */; };
 		2DE5177724E32DD80096A1B0 /* Notes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DE5177624E32DD80096A1B0 /* Notes.swift */; };
 		481F3F1F66E1DB75333A8F00 /* libPods-Tagsy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DCFA980845A67EBE20284A51 /* libPods-Tagsy.a */; };
@@ -60,6 +62,8 @@
 		2D5F7B5724E441B7002C37C3 /* SendPublicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendPublicViewController.swift; sourceTree = "<group>"; };
 		2D64B26A24F1BA0E00B15D18 /* ListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ListViewCell.swift; path = /Users/trevorpennington/iOS/Tagsy/Tagsy/Models/ListViewCell.swift; sourceTree = "<absolute>"; };
 		2D66306624E1E07D0056B498 /* TagMapDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagMapDetailViewController.swift; sourceTree = "<group>"; };
+		2DCE53C924F400120091CAA6 /* SubmitCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitCell.swift; sourceTree = "<group>"; };
+		2DCE53CB24F401CC0091CAA6 /* SubmitFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitFormItem.swift; sourceTree = "<group>"; };
 		2DE5177424E2CC450096A1B0 /* ListLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ListLocation.swift; path = Tagsy/Models/ListLocation.swift; sourceTree = SOURCE_ROOT; };
 		2DE5177624E32DD80096A1B0 /* Notes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notes.swift; sourceTree = "<group>"; };
 		BFB038DDAB6D8948A91790BC /* Pods-Tagsy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tagsy.release.xcconfig"; path = "Target Support Files/Pods-Tagsy/Pods-Tagsy.release.xcconfig"; sourceTree = "<group>"; };
@@ -125,6 +129,7 @@
 		2D4123E824D652C1000DD3A7 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				2DCE53CB24F401CC0091CAA6 /* SubmitFormItem.swift */,
 				2D64B26A24F1BA0E00B15D18 /* ListViewCell.swift */,
 				2D19F09124D72FD700DEA4D5 /* TagCell.swift */,
 				2D1C215824ED6E8B00B25270 /* TagsLayout.swift */,
@@ -133,6 +138,7 @@
 				2DE5177424E2CC450096A1B0 /* ListLocation.swift */,
 				2D1C215A24ED6ED600B25270 /* PubFunc.swift */,
 				2D1C215C24ED6EDD00B25270 /* Styles.swift */,
+				2DCE53C924F400120091CAA6 /* SubmitCell.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -285,7 +291,9 @@
 				2D19F09424D744C100DEA4D5 /* ItemViewController.swift in Sources */,
 				2D4123EA24D652DD000DD3A7 /* TagList.swift in Sources */,
 				2D4123D924D65295000DD3A7 /* ListViewController.swift in Sources */,
+				2DCE53CC24F401CC0091CAA6 /* SubmitFormItem.swift in Sources */,
 				2D1C215924ED6E8B00B25270 /* TagsLayout.swift in Sources */,
+				2DCE53CA24F400120091CAA6 /* SubmitCell.swift in Sources */,
 				2D4559EC24D8E041004F2B26 /* User.swift in Sources */,
 				2D19F09224D72FD700DEA4D5 /* TagCell.swift in Sources */,
 				2D66306724E1E07D0056B498 /* TagMapDetailViewController.swift in Sources */,
@@ -444,7 +452,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Tagsy/Tagsy.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = L6NF34PSJ2;
 				INFOPLIST_FILE = Tagsy/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
@@ -454,6 +462,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.TrevorPennington.Tagsy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = TagsyiOSProvProfile;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -465,7 +474,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Tagsy/Tagsy.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = L6NF34PSJ2;
 				INFOPLIST_FILE = Tagsy/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
@@ -475,6 +484,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.TrevorPennington.Tagsy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = TagsyiOSProvProfile;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

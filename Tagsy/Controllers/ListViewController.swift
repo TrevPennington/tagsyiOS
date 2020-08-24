@@ -27,6 +27,7 @@ class ListViewController: UITableViewController {
         //navigationController?.setNavigationBarHidden(false, animated: true)
         navigationItem.hidesBackButton = true
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: accountButton, style: .plain, target: self, action: #selector(goToAccount))
+        tableView.tableFooterView = UIView()
         //navigationController?.title = "Trevorrrr"
 
          
@@ -155,9 +156,6 @@ class ListViewController: UITableViewController {
         vc.listItem = items[indexPath.row]
         vc.userId = user.uid
         navigationController?.pushViewController(vc, animated: true)
-        //performSegue(withIdentifier: "ShowDetailView", sender: nil)
-        print("EDIT LIST")
-        //items = []
     }
     
     //MARK: Add Item
@@ -180,7 +178,7 @@ class ListViewController: UITableViewController {
     @objc func goToAccount() {
         let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "AccountVC") as! AccountViewController
-        
+        vc.accountName = user.email
         self.show(vc, sender: self)
         items = []
     }

@@ -10,10 +10,15 @@ import UIKit
 import MapKit
 import Firebase
 
-class SendPublicViewController: UIViewController, LocationSearchViewControllerDelegate, UITextFieldDelegate {
+class SendPublicViewController: UIViewController, LocationSearchViewControllerDelegate, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
+
+    
+    @IBOutlet weak var tableView: UITableView!
     func doSomethingWith(data: MKPlacemark) {
         //perfom action here. you received it from LocationSearch.
-        setLocation.text = "\(data.locality ?? "n/a"), \(data.administrativeArea ?? "n/a")" //city / state
+        //setLocation.text = "\(data.locality ?? "n/a"), \(data.administrativeArea ?? "n/a")" //city / state
+        submitForm[0].title = "\(data.locality ?? "n/a"), \(data.administrativeArea ?? "n/a")"
+        self.tableView.reloadData()
         locationSelected = data
     }
 
@@ -23,7 +28,7 @@ class SendPublicViewController: UIViewController, LocationSearchViewControllerDe
     var submitButton: UIBarButtonItem!
     
     @IBOutlet var details: UILabel!
-    @IBOutlet var setLocation: UILabel!
+
     var locationSelected: MKPlacemark? {
         didSet {
                 submitButton.isEnabled = true
@@ -32,6 +37,8 @@ class SendPublicViewController: UIViewController, LocationSearchViewControllerDe
     var locationText = ""
     let pubRef = Firestore.firestore().collection("public").document("forReview").collection("lists")
     var listItem = TagList(key: "", title: "", hashtags: [], mentions: [])
+    
+    let submitForm = [SubmitForItem(title: "set a location", subTitle: "location for use on TagMap")]
     
     @IBAction func titleChanged(_ sender: UITextField) {
         if listTitle.text == "" {
@@ -45,16 +52,36 @@ class SendPublicViewController: UIViewController, LocationSearchViewControllerDe
         listTitle.font = titleStyle
         listAuthor.font = tagStyle
         handleLabel.font = tagStyle
+        details.font = tagStyle
+        tableView.tableFooterView = UIView()
         
         submitButton = UIBarButtonItem(title: "submit", style: .plain, target: self, action: #selector(sendPublic))
         navigationItem.setRightBarButton(submitButton, animated: true)
         submitButton.isEnabled = false
 
         details.text = "submitting will send to Tagsy for review. If selected, your list will be on TagMap with a link to your Instagram for 1 month."
-        
         listTitle.text = listItem.title
-        print("inside SEND now. listItem = \(listItem)")
 
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return submitForm.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SubmitCell", for: indexPath)
+        let submitItem = submitForm[indexPath.row]
+        
+        cell.textLabel?.text = submitItem.title
+        cell.textLabel?.font = tagStyle
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+        self.performSegue(withIdentifier: "LocationSearchSegue", sender: self)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

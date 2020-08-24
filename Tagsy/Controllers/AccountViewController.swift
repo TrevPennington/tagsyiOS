@@ -9,25 +9,34 @@
 import UIKit
 import Firebase
 
-class AccountViewController: UIViewController {
+class AccountViewController: UIViewController, UITextViewDelegate {
 
-
+    @IBOutlet weak var accountNameLabel: UILabel!
+    var accountName: String?
+    @IBOutlet weak var logOutButton: UIButton!
+    @IBOutlet weak var privacyPolicy: UITextView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        
+        accountNameLabel.text = "logged in as: \(accountName ?? "apple user")"
+        accountNameLabel.font = tagStyle
+        logOutButton.setTitle("log out", for: .normal)
+        
+        logOutButton.titleLabel?.font = sansTitleStyle
+        
+        let attributedString = NSMutableAttributedString(string: "Tagsy's privacy policy")
+        attributedString.addAttribute(.link, value: "https://elastic-austin-b65359.netlify.app", range: NSRange(location: 0, length: attributedString.string.count))
+        privacyPolicy.attributedText = attributedString
+        privacyPolicy.font = tagStyle
+        privacyPolicy.textAlignment = .center
+        
+        navigationController?.title = "My Account"
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: sansTitleStyle!]
+        //navigationController?.navigationBar.prefersLargeTitles = true
     }
-    
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     @IBAction func logOut() {
         print("LOG OUT PRESSED")
@@ -48,5 +57,4 @@ class AccountViewController: UIViewController {
     }
 
 }
-
 

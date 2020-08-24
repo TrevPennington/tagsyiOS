@@ -20,8 +20,19 @@ class ItemViewController: UIViewController, UIGestureRecognizerDelegate, UIPicke
 
     @IBOutlet weak var tagsLayout: TagsLayout!
     
+
+    var copyAllButton = UIBarButtonItem()
+    var infoButton = UIBarButtonItem()
     
-    var listItem = TagList(key: "", title: "", hashtags: [], mentions: [])
+    var listItem = TagList(key: "", title: "", hashtags: [], mentions: []) {
+        didSet {
+            if listItem.hashtags.count != 0 || listItem.mentions.count != 0 {
+                self.copyAllButton.isEnabled = true
+            } else {
+                self.copyAllButton.isEnabled = false
+            }
+        }
+    }
     var addingNewList = false
     var userId: String? = ""
     var ref: CollectionReference!
@@ -29,6 +40,12 @@ class ItemViewController: UIViewController, UIGestureRecognizerDelegate, UIPicke
     var allTags = [String]()
     let pickerItems = ["#", "@"]
     var hashtagSelected = true
+    
+    var baseTagPrompt = "add a"
+    var tagPrompt = "tag"
+    var mentionPrompt = "mention"
+    var tagCount = 0
+    var mentionCount = 0
     
     let infoImage = UIImage(systemName: "text.justify")
     
@@ -46,13 +63,13 @@ class ItemViewController: UIViewController, UIGestureRecognizerDelegate, UIPicke
 
 
         // Do any additional setup after loading the view.
-        let infoButton = UIBarButtonItem(image: infoImage, style: .plain, target: self, action: #selector(infoModal))
-        let copyAllButton = UIBarButtonItem(title: "copy", style: .plain, target: self, action: #selector(copyAll))
-        
+        copyAllButton = UIBarButtonItem(title: "copy", style: .plain, target: self, action: #selector(copyAll))
+        infoButton = UIBarButtonItem(image: infoImage, style: .plain, target: self, action: #selector(infoModal))
         navigationItem.setRightBarButtonItems([infoButton, copyAllButton], animated: true)
 
         
         self.addTag.addTarget(self, action: #selector(onReturn), for: UIControl.Event.editingDidEndOnExit)
+        //self.addTag.placeholder = ""
 
         
         //LIST SETUP
@@ -71,6 +88,7 @@ class ItemViewController: UIViewController, UIGestureRecognizerDelegate, UIPicke
     
     override func viewWillAppear(_ animated: Bool) {
         displayTags()
+        addTag.placeholder = tagPrompt
     }
     
     func displayTags() {
@@ -86,27 +104,28 @@ class ItemViewController: UIViewController, UIGestureRecognizerDelegate, UIPicke
             let mentionToAdd = "@" + mention
             allTags.append(mentionToAdd)
         }
-        print(allTags)
-
+        tagCount = listItem.hashtags.count
+        mentionCount = listItem.mentions.count
+        
+        tagPrompt = baseTagPrompt + " hashtag (\(tagCount)/30)"
+        mentionPrompt = baseTagPrompt + " mention (\(mentionCount)/5)"
     }
     
     func checkIfAddingOrEditing() {
         if addingNewList {
-
+            copyAllButton.isEnabled = false
         } else { //editting list. List item was set from segue
             listTitle.text = listItem.title
         }
     }
     
     override func viewWillDisappear(_ animated: Bool) { //refactor this. (repeating code).
-        
-        //let pubRef = Firestore.firestore().collection("public").document("forReview").collection("lists")
-        
+                
         listItem.title = listTitle.text ?? "no title"
         
         if addingNewList { //NEW LIST
 
-            //ADD THE NEW LIST TO FIREBASE
+            //MARK: ADD NEW LIST TO FIREBASE
             if listItem.hashtags != [] || listTitle.text != "" {
                 if listTitle.text == "" {
                     listItem.title = "no title"
@@ -117,32 +136,41 @@ class ItemViewController: UIViewController, UIGestureRecognizerDelegate, UIPicke
                     "mentions" : listItem.mentions
                 ])
             }
-
-            //print(user.uid)
-            //navigationController?.popViewController(animated: true)
             addingNewList = false
         
         } else { //EDITTING LIST
             
-            ref.document(listItem.key).updateData([
-                "title" : listItem.title,
-                "tags" : listItem.hashtags,
-                "mentions" : listItem.mentions
-            ]) { err in
-                if let err = err {
-                    print("Error updating doc: \(err)")
-                } else {
-                    print("success updating")
+            //MARK: EVERYTHING IS EMPTY, DELETE LIST
+            if listTitle.text == "" && listItem.hashtags == [] && listItem.mentions == [] {
+                ref.document("\(listItem.key)").delete() { err in
+                    if let err = err {
+                        print("error removing doc \(err)")
+                    } else {
+                        print("removed doc")
+                        
+                    }
                 }
+            } else {
+                //MARK: UPDATE THE LIST IN FB
+              ref.document(listItem.key).updateData([
+                  "title" : listItem.title,
+                  "tags" : listItem.hashtags,
+                  "mentions" : listItem.mentions
+              ]) { err in
+                  if let err = err {
+                      print("Error updating doc: \(err)")
+                  } else {
+                      print("success updating")
+                  }
+              }
             }
-            
         }
         //Any clean-up, do here.
         allTags = []
         print("TAGS CLEANED")
     }
     
-    //PICKER for #/@
+    //MARK: PICKER for #/@
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -166,13 +194,13 @@ class ItemViewController: UIViewController, UIGestureRecognizerDelegate, UIPicke
     
     // Capture the picker view selection
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        // This method is triggered whenever the user makes a change to the picker selection.
-        // The parameter named row and component represents what was selected.
-        
         if row == 1 {
             hashtagSelected = false
+            //change addTag.placeholder
+            addTag.placeholder = mentionPrompt
         } else {
             hashtagSelected = true
+            addTag.placeholder = tagPrompt
         }
         print(hashtagSelected)
         
@@ -184,14 +212,27 @@ class ItemViewController: UIViewController, UIGestureRecognizerDelegate, UIPicke
         
         //if hashtag
         if hashtagSelected {
-        listItem.hashtags.insert(addTag.text!, at: 0) //append tag to array
+            if tagCount < 30 {
+                listItem.hashtags.insert(addTag.text!, at: 0) //append tag to array
+                displayTags()
+                collectionView.reloadData()
+                addTag.text = ""
+            } else { //too many
+                alertUser(title: "only 30 hashtags are allowed on Instagram", sender: self)
+            }
+            
+        //if mention
         } else {
-            listItem.mentions.insert(addTag.text!, at: 0) //append to mention array
+            if mentionCount < 5 {
+                listItem.mentions.insert(addTag.text!, at: 0) //append to mention array
+                displayTags()
+                collectionView.reloadData()
+                addTag.text = ""
+            } else { //too many
+                alertUser(title: "only 5 mentions are allowed on Instagram", sender: self)
+            }
         }
-        
-        displayTags()
-        collectionView.reloadData()
-        addTag.text = ""
+
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
