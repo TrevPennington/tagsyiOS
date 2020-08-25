@@ -9,9 +9,6 @@
 import UIKit
 
 class TagCell: UICollectionViewCell {
-    //MARK: Style
-    let background = UIColor.systemGray6
-    let textHex = UIColor.black
 
     @IBOutlet var tagName: UILabel!
     var width: CGFloat!
@@ -34,8 +31,7 @@ class TagCell: UICollectionViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.backgroundColor = background
-        tagName.textColor = textHex
+        self.backgroundColor = background //make dark mode compatable
         tagName.font = UIFont(name: sansFont, size: 14)
         
         contentView.translatesAutoresizingMaskIntoConstraints = false

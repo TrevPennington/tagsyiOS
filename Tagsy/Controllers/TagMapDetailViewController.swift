@@ -23,6 +23,8 @@ class TagMapDetailViewController: UIViewController {
     var userId: String = ""
     
     var allTags = [String]()
+    
+    var saveCount = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,6 +63,23 @@ class TagMapDetailViewController: UIViewController {
     //MARK: Save to user's lists
     @IBAction func saveList(_ sender: Any) {
         //save to user's Fb
+        
+        if saveCount > 0 {
+            let titleAttrString = NSMutableAttributedString(string: "You just saved \(tagMapItem?.title ?? "this list"). Are you sure you want to save it again?", attributes: [NSAttributedString.Key.font: sansTitleStyle as Any])
+            
+            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: saveListFinal(_:)))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            alert.setValue(titleAttrString, forKey: "attributedTitle")
+            
+        } else {
+            saveListFinal(self)
+          
+        }
+    }
+    
+    func saveListFinal(_ sender: Any) {
         let ref = Firestore.firestore().collection("users").document(userId).collection("lists")
         
         if let tagMapItem = tagMapItem {
@@ -69,6 +88,7 @@ class TagMapDetailViewController: UIViewController {
             "tags" : tagMapItem.hashtags,
             "mentions" : tagMapItem.mentions
         ])
+        saveCount += 1
         alertUser(title: "saved to your lists 👍", sender: self)
         } else {
             print("error")
@@ -79,7 +99,7 @@ class TagMapDetailViewController: UIViewController {
     @IBAction func copyAll(_ sender: Any) {
         print("copy all pressed")
         
-        var stringToPaste = "•\n•\n•\n•\n•\n•\n•\n•"
+        var stringToPaste = "•\n•\n•\n•\n•\n•\n•\n•\n"
         for tag in allTags {
             stringToPaste += "\(tag) "
         }
@@ -112,7 +132,7 @@ extension TagMapDetailViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         //print("PHAIL THIS WON'T SHOW")
         let text = allTags[indexPath.row]
-        let font: UIFont = UIFont(name: "Baskerville", size: 14) ??  UIFont.systemFont(ofSize: 14.0) // set here font name and font size
+        let font: UIFont = UIFont(name: sansFont, size: 14) ??  UIFont.systemFont(ofSize: 14.0) // set here font name and font size
         let width = text.SizeOf(font).width
         return CGSize(width: width + 17.0, height: 22.0) // ADD width + space between text (for ex : 20.0)
         }

@@ -47,7 +47,7 @@ class ItemViewController: UIViewController, UIGestureRecognizerDelegate, UIPicke
     var tagCount = 0
     var mentionCount = 0
     
-    let infoImage = UIImage(systemName: "text.justify")
+    let infoImage = UIImage(systemName: "ellipsis.circle")
     
     
     override func viewDidLoad() {
@@ -300,7 +300,7 @@ class ItemViewController: UIViewController, UIGestureRecognizerDelegate, UIPicke
     //MARK: Go to Send Public VC
     func submitButtonTapped(_ sender: Any) {
         //put title text into list.title
-        if allTags.count > 1 { //always be 9
+        if allTags.count > 9 { //always be 9
             //let viewController = SendPublicViewController() //make this legit
             
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
@@ -352,10 +352,13 @@ class ItemViewController: UIViewController, UIGestureRecognizerDelegate, UIPicke
     
     //MARK: Delete List?
     func deleteButtonTapped(_ sender: Any) {
-        let alert = UIAlertController(title: "Are you sure?", message: nil, preferredStyle: .alert)
+        let titleAttrString = NSMutableAttributedString(string: "Are you sure you want to delete this list?", attributes: [NSAttributedString.Key.font: sansTitleStyle as Any])
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+        
         alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: deleteList(_:)))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
+        alert.setValue(titleAttrString, forKey: "attributedTitle")
     }
     //MARK: Delete List Confirmed
     func deleteList(_ sender: Any) {

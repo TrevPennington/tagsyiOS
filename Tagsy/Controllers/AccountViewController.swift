@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import GoogleSignIn
 
 class AccountViewController: UIViewController, UITextViewDelegate {
 
@@ -44,6 +45,7 @@ class AccountViewController: UIViewController, UITextViewDelegate {
             //add a property to user when logging in (Apple or Google)
             // Clear saved user ID
             UserDefaults.standard.set(nil, forKey: "appleAuthorizedUserIdKey")
+            GIDSignIn.sharedInstance()?.signOut()
         do {
             try Auth.auth().signOut() //handle errors
             //go to sign in screen

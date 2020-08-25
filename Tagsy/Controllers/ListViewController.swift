@@ -13,6 +13,7 @@ import Firebase
 class ListViewController: UITableViewController {
     
     var db: Firestore!
+    var provider: String?
     var user: User!
     var items: [TagList] = []
     
@@ -28,21 +29,18 @@ class ListViewController: UITableViewController {
         navigationItem.hidesBackButton = true
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: accountButton, style: .plain, target: self, action: #selector(goToAccount))
         tableView.tableFooterView = UIView()
-        //navigationController?.title = "Trevorrrr"
-
          
         tableView.allowsMultipleSelectionDuringEditing = false
         db = Firestore.firestore()
-        //firebaseTest()
         Auth.auth().addStateDidChangeListener { (auth, user) in
           if let user = user {
             self.user = User(uid: user.uid, email: user.email!)
-            print("USER SET TO \(user.uid)")
+            print("USER SET TO \(self.provider ?? "")")
             //set userRef here
             //TODO: once Apple sign in works
             //let userRef = self.db.collection("users").document("\(user?.uid)")
             self.itemsRef = Firestore.firestore().collection("users").document(user.uid).collection("lists")
-            self.title = user.displayName
+            self.title = user.displayName ?? "my lists"
             
             //send UserId to TagMapVC
             let tagMapVC = self.tabBarController?.viewControllers?[1] as! TagMapViewController

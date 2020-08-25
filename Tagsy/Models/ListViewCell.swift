@@ -19,11 +19,19 @@ class ListViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         
+        copyButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        let constraints = [
+            copyButton.centerYAnchor.constraint(equalTo: cellTitle.centerYAnchor),
+            copyButton.rightAnchor.constraint(equalTo: cellTitle.rightAnchor, constant: -20)
+        ]
+        NSLayoutConstraint.activate(constraints)
+        
     }
     @IBAction func copyAll(_ sender: Any) {
         print("copy all pressed")
         
-        var stringToPaste = "•\n•\n•\n•\n•\n•\n•\n•"
+        var stringToPaste = "•\n•\n•\n•\n•\n•\n•\n•\n"
         for tag in allTags {
             stringToPaste += "\(tag) "
         }

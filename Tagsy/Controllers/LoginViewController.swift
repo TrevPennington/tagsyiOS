@@ -10,18 +10,26 @@ import UIKit
 import AuthenticationServices
 import CryptoKit
 import Firebase
+import GoogleSignIn
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, GIDSignInDelegate {
     
     var currentNonce: String?
+    var provider: String?
+    let siwaButton = ASAuthorizationAppleIDButton()
 
+    @IBOutlet weak var siwgButton: UIButton!
+    let googleIcon = UIImage(named: "googleIcon")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         
-
+        navigationController?.navigationBar.isHidden = true
+        tabBarController?.tabBar.isHidden = true
         // Do any additional setup after loading the view.
-        let siwaButton = ASAuthorizationAppleIDButton()
+        
+        //MARK: APPLE SIGN IN
         siwaButton.translatesAutoresizingMaskIntoConstraints = false
         //add button to view
         self.view.addSubview(siwaButton)
@@ -29,13 +37,31 @@ class LoginViewController: UIViewController {
         NSLayoutConstraint.activate([
             siwaButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 50.0),
             siwaButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -50.0),
-            siwaButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -70.0),
+            siwaButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -130.0),
             siwaButton.heightAnchor.constraint(equalToConstant: 50.0)
         ])
             //func when tapped
         siwaButton.addTarget(self, action: #selector(appleSignInTapped), for: .touchUpInside)
         
+        
+        //MARK: GOOGLE SIGN IN
+        GIDSignIn.sharedInstance()?.presentingViewController = self
+        GIDSignIn.sharedInstance().delegate = self
 
+        siwgButton.setTitle(" Sign in with Google", for: .normal)
+        siwgButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            siwgButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 50.0),
+            siwgButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -50.0),
+            siwgButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50.0),
+            siwgButton.heightAnchor.constraint(equalToConstant: 50.0)
+        ])
+        siwgButton.backgroundColor = hexStringToUIColor(hex: "#db3236")
+        siwgButton.setTitleColor(UIColor.white, for: .normal)
+        siwgButton.setImage(googleIcon, for: .normal)
+        siwgButton.imageEdgeInsets = UIEdgeInsets(top: 15, left: 55, bottom: 15, right: 240)
+        siwgButton.titleLabel?.font = UIFont.systemFont(ofSize: CGFloat(50.0 * 0.38), weight: .medium)
+        siwgButton.layer.cornerRadius = 6.0
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -43,28 +69,41 @@ class LoginViewController: UIViewController {
     }
     
     
-    func checkIfSignedInAlready() {
-        //check if user has signed in already
+    public func checkIfSignedInAlready() {
+        
+        //if already signed in to GOOGLE
+        GIDSignIn.sharedInstance()?.restorePreviousSignIn()
+        
+        //if already signed in to APPLE
         // on the initial view controller or somewhere else, check the userdefaults
         if UserDefaults.standard.string(forKey: "appleAuthorizedUserIdKey") != nil {
                 // move to main view
             print("USER HAS SIGNED IN BEFORE")
-            //performSegue(withIdentifier: "LogInToTagsy", sender: nil)
+            siwaButton.removeFromSuperview()
+            
+            let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
+//            NSLayoutConstraint.activate([
+//                label.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+//                label.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
+//            ])
+            label.center = super.view.center
+            
+            label.textAlignment = .center
+            label.text = "Tagsy"
+            label.font = titleStyle
+            self.view.addSubview(label)
+            
+
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyboard.instantiateViewController(identifier: "tabBarController")
+            let bc = storyboard.instantiateViewController(identifier: "ListViewController") as! ListViewController
+            
+            bc.provider = "Apple"
 
             self.show(vc, sender: self)
 
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -190,7 +229,7 @@ extension LoginViewController : ASAuthorizationControllerDelegate {
                         let vc = storyboard.instantiateViewController(identifier: "tabBarController")
 
                         self.navigationController?.pushViewController(vc, animated: true)
-                        //self.show(vc, sender: Any?(nilLiteral: <#()#>))
+                        
                     }
                 })
             }
@@ -262,8 +301,89 @@ extension LoginViewController : ASAuthorizationControllerDelegate {
       return hashString
     }
     
-
+    @IBAction func googleSignIn(sender: UIButton) {
+      GIDSignIn.sharedInstance().signIn()
+    }
     
+    //MARK: SIGN IN WITH GOOGLE
+    func sign(_ signIn: GIDSignIn!,
+              didSignInFor user: GIDGoogleUser!,
+              withError error: Error!) {
+        
+        // Check for sign in error
+        if let error = error {
+            if (error as NSError).code == GIDSignInErrorCode.hasNoAuthInKeychain.rawValue {
+                print("The user has not signed in before or they have since signed out.")
+            } else {
+                print("\(error.localizedDescription)")
+            }
+            return
+        }
+        
+        // Get credential object using Google ID token and Google access token
+        guard let authentication = user.authentication else {
+            return
+        }
+        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,
+                                                       accessToken: authentication.accessToken)
+        
+        // Authenticate with Firebase using the credential object
+        Auth.auth().signIn(with: credential) { (authResult, error) in
+            if let error = error {
+                print("Error occurs when authenticate with Firebase: \(error.localizedDescription)")
+            }
+                
+            // Post notification after user successfully sign in
+            //NotificationCenter.default.post(name: .signInGoogleCompleted, object: nil)
+            print("signed in with google")
+            
+            
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewController(identifier: "tabBarController")
+            let bc = storyboard.instantiateViewController(identifier: "ListViewController") as! ListViewController
+
+            
+            bc.provider = "Google"
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+
+    }
+    
+    
+
     
     //MARK: END OF CLASS
     }
+
+extension UILabel
+{
+    func addImage(imageName: String, afterLabel bolAfterLabel: Bool = false)
+    {
+        let attachment: NSTextAttachment = NSTextAttachment()
+        attachment.image = UIImage(named: imageName)
+        let attachmentString: NSAttributedString = NSAttributedString(attachment: attachment)
+
+        if (bolAfterLabel)
+        {
+            let strLabelText: NSMutableAttributedString = NSMutableAttributedString(string: self.text!)
+            strLabelText.append(attachmentString)
+
+            self.attributedText = strLabelText
+        }
+        else
+        {
+            let strLabelText: NSAttributedString = NSAttributedString(string: self.text!)
+            let mutableAttachmentString: NSMutableAttributedString = NSMutableAttributedString(attributedString: attachmentString)
+            mutableAttachmentString.append(strLabelText)
+
+            self.attributedText = mutableAttachmentString
+        }
+    }
+
+    func removeImage()
+    {
+        let text = self.text
+        self.attributedText = nil
+        self.text = text
+    }
+}
