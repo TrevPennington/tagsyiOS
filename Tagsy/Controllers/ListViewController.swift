@@ -31,6 +31,8 @@ class ListViewController: UITableViewController {
         tableView.tableFooterView = UIView()
          
         tableView.allowsMultipleSelectionDuringEditing = false
+        
+        
         db = Firestore.firestore()
         Auth.auth().addStateDidChangeListener { (auth, user) in
           if let user = user {
@@ -41,7 +43,7 @@ class ListViewController: UITableViewController {
             //let userRef = self.db.collection("users").document("\(user?.uid)")
             self.itemsRef = Firestore.firestore().collection("users").document(user.uid).collection("lists")
             self.title = user.displayName ?? "my lists"
-            
+            self.loadFbData()
             //send UserId to TagMapVC
             let tagMapVC = self.tabBarController?.viewControllers?[1] as! TagMapViewController
             tagMapVC.userId = user.uid
@@ -49,8 +51,18 @@ class ListViewController: UITableViewController {
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         
+        loadFbData()
+        
+        //set the user for TagMapVC as well.
+//        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//        let vc = storyBoard.instantiateViewController(withIdentifier: "TagMapViewController") as! TagMapViewController
+//        vc.userId = user.uid
+
+    }
+    
+    func loadFbData() {
         itemsRef?.getDocuments { (snapshot, error) in //snapshot is a 'snapshot' of data at this point of fetch.
             if let err = error {
                 debugPrint("Error fetching docs: \(err)")
@@ -76,12 +88,6 @@ class ListViewController: UITableViewController {
                 print("Table view reloaded")
             }
         }
-        
-        //set the user for TagMapVC as well.
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyBoard.instantiateViewController(withIdentifier: "TagMapViewController") as! TagMapViewController
-        vc.userId = user.uid
-
     }
     
     override func viewWillDisappear(_ animated: Bool) {

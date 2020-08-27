@@ -15,7 +15,7 @@ class TagMapDetailViewController: UIViewController {
     private let reuseIdentifier = "TagCell"
     
     @IBOutlet var listTitle: UILabel!
-    @IBOutlet var listAuthor: UILabel!
+    @IBOutlet var listAuthor: UIButton!
     @IBOutlet weak var tagsLayout: TagsLayout!
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -31,14 +31,15 @@ class TagMapDetailViewController: UIViewController {
         
         //MARK: Styling
         listTitle.font = titleStyle
-        listAuthor.font = tagStyle
+
+        listAuthor.titleLabel?.font = tagStyle
         
         collectionView.collectionViewLayout = tagsLayout
         collectionView.delegate = self
 
         // Do any additional setup after loading the view.
         listTitle?.text = tagMapItem?.title
-        listAuthor?.text = "by @\(tagMapItem?.author ?? "nil")"
+        listAuthor?.setTitle("by @\(tagMapItem?.author ?? "nil")", for: .normal)
                 
         print(userId)
         displayTags()
@@ -109,6 +110,15 @@ class TagMapDetailViewController: UIViewController {
         pasteboard.string = stringToPaste //put all tags and mentions here, together
         alertUser(title: "copied to clipboard 👌", sender: self)
         print(type(of: self))
+    }
+    
+    @IBAction func goToInsta() {
+
+        let username = tagMapItem?.author ?? "" // Your Instagram Username here
+        print("https://www.instagram.com/\(username)")
+        guard let instagram = URL(string: "https://www.instagram.com/\(username)") else { return }
+        UIApplication.shared.open(instagram)
+
     }
     
     

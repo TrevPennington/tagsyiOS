@@ -444,14 +444,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6qQ-De-1C2">
-                                <rect key="frame" x="100" y="145" width="214" height="21"/>
-                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="8Tq-ta-GHj">
-                                <rect key="frame" x="10" y="201" width="394" height="661"/>
+                                <rect key="frame" x="10" y="200" width="394" height="662"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <collectionViewLayout key="collectionViewLayout" id="tQl-PB-bZW" customClass="TagsLayout" customModule="Tagsy" customModuleProvider="target"/>
                                 <cells>
@@ -506,30 +500,35 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rt3-9h-erd">
+                                <rect key="frame" x="184.5" y="145" width="45" height="30"/>
+                                <state key="normal" title="author"/>
+                                <connections>
+                                    <action selector="goToInsta" destination="uG3-Gc-SZp" eventType="touchUpInside" id="XjL-vg-8ZZ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="8Tq-ta-GHj" firstAttribute="bottom" secondItem="Qa7-4d-Ryy" secondAttribute="bottom" id="2tR-yR-70j"/>
-                            <constraint firstItem="8Tq-ta-GHj" firstAttribute="top" secondItem="6qQ-De-1C2" secondAttribute="bottom" constant="35" id="5HH-5B-0Bz"/>
-                            <constraint firstItem="6qQ-De-1C2" firstAttribute="centerX" secondItem="uwf-C7-VhI" secondAttribute="centerX" id="AMR-06-Nj7"/>
-                            <constraint firstItem="6qQ-De-1C2" firstAttribute="top" secondItem="tps-cp-ei0" secondAttribute="bottom" constant="15" id="PIa-3g-YV0"/>
-                            <constraint firstItem="6qQ-De-1C2" firstAttribute="leading" secondItem="Qa7-4d-Ryy" secondAttribute="leading" constant="100" id="PJV-bN-2jD"/>
+                            <constraint firstItem="8Tq-ta-GHj" firstAttribute="top" secondItem="rt3-9h-erd" secondAttribute="bottom" constant="25" id="Pe2-yW-mTB"/>
+                            <constraint firstItem="rt3-9h-erd" firstAttribute="centerX" secondItem="tps-cp-ei0" secondAttribute="centerX" id="UWA-zE-f78"/>
                             <constraint firstItem="tps-cp-ei0" firstAttribute="leading" secondItem="Qa7-4d-Ryy" secondAttribute="leading" constant="50" id="VYp-aJ-ugV"/>
                             <constraint firstItem="tps-cp-ei0" firstAttribute="top" secondItem="Rkw-Vc-weJ" secondAttribute="bottom" constant="15" id="Znz-d3-vdT"/>
-                            <constraint firstItem="Qa7-4d-Ryy" firstAttribute="trailing" secondItem="6qQ-De-1C2" secondAttribute="trailing" constant="100" id="dXl-6m-JGv"/>
                             <constraint firstItem="Qa7-4d-Ryy" firstAttribute="trailing" secondItem="s1h-sH-sWt" secondAttribute="trailing" constant="20" id="dmd-Vg-j6R"/>
                             <constraint firstItem="8Tq-ta-GHj" firstAttribute="trailing" secondItem="Qa7-4d-Ryy" secondAttribute="trailing" constant="-10" id="jOo-PQ-2Kb"/>
                             <constraint firstItem="8Tq-ta-GHj" firstAttribute="leading" secondItem="Qa7-4d-Ryy" secondAttribute="leading" constant="10" id="kWV-rF-3Xh"/>
                             <constraint firstItem="Rkw-Vc-weJ" firstAttribute="top" secondItem="Qa7-4d-Ryy" secondAttribute="top" constant="20" id="lnR-Qv-PVJ"/>
                             <constraint firstItem="Qa7-4d-Ryy" firstAttribute="trailing" secondItem="tps-cp-ei0" secondAttribute="trailing" constant="50" id="sIe-Bf-6AP"/>
                             <constraint firstItem="s1h-sH-sWt" firstAttribute="top" secondItem="Qa7-4d-Ryy" secondAttribute="top" constant="20" id="sZp-Ee-8wC"/>
+                            <constraint firstItem="rt3-9h-erd" firstAttribute="top" secondItem="tps-cp-ei0" secondAttribute="bottom" constant="15" id="vC6-cj-uAz"/>
                             <constraint firstItem="Rkw-Vc-weJ" firstAttribute="leading" secondItem="Qa7-4d-Ryy" secondAttribute="leading" constant="20" id="za8-UC-OxQ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Qa7-4d-Ryy"/>
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="8Tq-ta-GHj" id="0U1-V3-aqQ"/>
-                        <outlet property="listAuthor" destination="6qQ-De-1C2" id="eey-La-NcS"/>
+                        <outlet property="listAuthor" destination="rt3-9h-erd" id="FrJ-eV-MCr"/>
                         <outlet property="listTitle" destination="tps-cp-ei0" id="fpU-aU-VUE"/>
                         <outlet property="tagsLayout" destination="tQl-PB-bZW" id="LTg-Jp-4rF"/>
                     </connections>
@@ -566,7 +565,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fFi-bq-1kU">
-                                <rect key="frame" x="184" y="433" width="46" height="30"/>
+                                <rect key="frame" x="184" y="797" width="46" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <connections>

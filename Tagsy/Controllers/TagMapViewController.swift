@@ -89,7 +89,7 @@ class TagMapViewController: UIViewController, MKMapViewDelegate, UISearchBarDele
                 for item in self.listLocations {
                     let point = TagMapAnnotation()
                     point.title = item.title
-                    point.subtitle = item.author
+                    point.subtitle = "@\(item.author ?? "n/a")"
                     point.coordinate = item.coordinate
                     point.locationIndex = self.index
                     self.index += 1

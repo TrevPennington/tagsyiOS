@@ -17,83 +17,55 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
     var currentNonce: String?
     var provider: String?
     let siwaButton = ASAuthorizationAppleIDButton()
+    var spinner = UIActivityIndicatorView(style: .large)
+    
 
     @IBOutlet weak var siwgButton: UIButton!
     let googleIcon = UIImage(named: "googleIcon")
     
+    var signedInWithGoogleBefore = true {
+        didSet {
+            renderLoginButtons()
+            print("set the google status")
+        }
+    }
+    var signedInWithAppleBefore = true {
+        didSet {
+            renderLoginButtons()
+            print("set the apple status")
+        }
+    }
+    
+    let loadingLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 30))
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+    
         navigationController?.navigationBar.isHidden = true
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         tabBarController?.tabBar.isHidden = true
         // Do any additional setup after loading the view.
-        
-        //MARK: APPLE SIGN IN
-        siwaButton.translatesAutoresizingMaskIntoConstraints = false
-        //add button to view
-        self.view.addSubview(siwaButton)
-        //constraints
-        NSLayoutConstraint.activate([
-            siwaButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 50.0),
-            siwaButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -50.0),
-            siwaButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -130.0),
-            siwaButton.heightAnchor.constraint(equalToConstant: 50.0)
-        ])
-            //func when tapped
-        siwaButton.addTarget(self, action: #selector(appleSignInTapped), for: .touchUpInside)
-        
-        
-        //MARK: GOOGLE SIGN IN
         GIDSignIn.sharedInstance()?.presentingViewController = self
         GIDSignIn.sharedInstance().delegate = self
-
-        siwgButton.setTitle(" Sign in with Google", for: .normal)
-        siwgButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            siwgButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 50.0),
-            siwgButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -50.0),
-            siwgButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50.0),
-            siwgButton.heightAnchor.constraint(equalToConstant: 50.0)
-        ])
-        siwgButton.backgroundColor = hexStringToUIColor(hex: "#db3236")
-        siwgButton.setTitleColor(UIColor.white, for: .normal)
-        siwgButton.setImage(googleIcon, for: .normal)
-        siwgButton.imageEdgeInsets = UIEdgeInsets(top: 15, left: 55, bottom: 15, right: 240)
-        siwgButton.titleLabel?.font = UIFont.systemFont(ofSize: CGFloat(50.0 * 0.38), weight: .medium)
-        siwgButton.layer.cornerRadius = 6.0
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        switchToLoading()
         checkIfSignedInAlready()
+        
     }
     
-    
     public func checkIfSignedInAlready() {
-        
-        //if already signed in to GOOGLE
-        GIDSignIn.sharedInstance()?.restorePreviousSignIn()
-        
-        //if already signed in to APPLE
-        // on the initial view controller or somewhere else, check the userdefaults
+        //MARK: GOOGLE CHECK
+            GIDSignIn.sharedInstance()?.restorePreviousSignIn()
+            
+        //MARK: APPLE CHECK
+        // check the userdefaults
         if UserDefaults.standard.string(forKey: "appleAuthorizedUserIdKey") != nil {
-                // move to main view
-            print("USER HAS SIGNED IN BEFORE")
-            siwaButton.removeFromSuperview()
-            
-            let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
-//            NSLayoutConstraint.activate([
-//                label.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-//                label.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
-//            ])
-            label.center = super.view.center
-            
-            label.textAlignment = .center
-            label.text = "Tagsy"
-            label.font = titleStyle
-            self.view.addSubview(label)
-            
 
+            print("USER HAS SIGNED IN BEFORE")
+            
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyboard.instantiateViewController(identifier: "tabBarController")
             let bc = storyboard.instantiateViewController(identifier: "ListViewController") as! ListViewController
@@ -102,18 +74,131 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
 
             self.show(vc, sender: self)
 
+        } else {
+            signedInWithAppleBefore = false
+        }
+    
+    }
+
+    
+    //MARK: Loading screen
+    func switchToLoading() {
+        
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        spinner.startAnimating()
+        view.addSubview(spinner)
+
+        NSLayoutConstraint.activate([
+            spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            spinner.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 120.0)
+
+        ])
+
+        self.view.addSubview(loadingLabel)
+        loadingLabel.translatesAutoresizingMaskIntoConstraints = false
+        loadingLabel.textAlignment = .center
+        loadingLabel.text = "Tagsy"
+        loadingLabel.font = titleStyle
+        //loadingLabel.center = view.center
+        
+        NSLayoutConstraint.activate([
+            loadingLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20.0),
+            loadingLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20.0),
+            loadingLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -300.0),
+            loadingLabel.heightAnchor.constraint(equalToConstant: 50.0)
+        ])
+    }
+    
+    func renderLoginButtons() {
+        
+        if signedInWithAppleBefore == false && signedInWithGoogleBefore == false {
+            switchToInfo()
+        
+           self.view.addSubview(siwaButton)
+           //MARK: APPLE SIGN IN
+           siwaButton.translatesAutoresizingMaskIntoConstraints = false
+           NSLayoutConstraint.activate([
+               siwaButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 50.0),
+               siwaButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -50.0),
+               siwaButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -180.0),
+               siwaButton.heightAnchor.constraint(equalToConstant: 50.0)
+           ])
+               //func when tapped
+           siwaButton.addTarget(self, action: #selector(appleSignInTapped), for: .touchUpInside)
+            
+             //MARK: GOOGLE SIGN IN
+            self.view.addSubview(siwgButton)
+                siwgButton.setTitle("       Sign in with Google", for: .normal)
+                siwgButton.translatesAutoresizingMaskIntoConstraints = false
+                NSLayoutConstraint.activate([
+                    siwgButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 50.0),
+                    siwgButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -50.0),
+                    siwgButton.bottomAnchor.constraint(equalTo: siwaButton.bottomAnchor, constant: 70.0),
+                    siwgButton.heightAnchor.constraint(equalToConstant: 50.0)
+                ])
+                siwgButton.backgroundColor = hexStringToUIColor(hex: "#db3236")
+                siwgButton.setTitleColor(UIColor.white, for: .normal)
+                siwgButton.setImage(googleIcon, for: .normal)
+                siwgButton.imageEdgeInsets = UIEdgeInsets(top: 15, left: 50, bottom: 15, right: 245)
+                siwgButton.titleLabel?.font = UIFont.systemFont(ofSize: CGFloat(50.0 * 0.38), weight: .medium)
+                siwgButton.layer.cornerRadius = 6.0
         }
     }
+    
+    func switchToInfo() {
+        //hide spinner
+        spinner.isHidden = true
+        //move title up
+        NSLayoutConstraint.activate([loadingLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -400.0)])
+        loadingLabel.layoutIfNeeded()
+        UIView.animate(withDuration: 0.5, animations: {
+            self.loadingLabel.layoutIfNeeded()
+        })
+        
+        let infoLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 150, height: 300))
+        self.view.addSubview(infoLabel)
+        infoLabel.translatesAutoresizingMaskIntoConstraints = false
+        infoLabel.center = view.center
+        infoLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
+        infoLabel.numberOfLines = 10
+        infoLabel.textAlignment = .center
+        infoLabel.text = "Sign in to start making your own hashtag lists and browse tag lists from all over the world!"
+        infoLabel.font = sansTitleStyle
+        
+        NSLayoutConstraint.activate([
+            infoLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30.0),
+            infoLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -30.0),
+            infoLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -80.0),
+            infoLabel.heightAnchor.constraint(equalToConstant: 500.0)
+            //infoLabel.widthAnchor.constraint(equalTo: view.widthAnchor)
+        ])
+    }
+    
+    //MARK: Switch to loading from sign in tapped
+    func hideLoginButtons() {
+        siwgButton.isHidden = true
+        siwaButton.isHidden = true
+        //show activity indicator
+        spinner.isHidden = false
+    }
+    
+    func showLoginButtons() {
+        siwgButton.isHidden = false
+        siwaButton.isHidden = false
+        //hide activity indicator
+        spinner.isHidden = true
+    }
+    
+    
     
     
     
     // MARK: APPLE
     
     @objc func appleSignInTapped() {
+        hideLoginButtons()
         
         startSignInWithAppleFlow()
-        
-        
         
             let provider = ASAuthorizationAppleIDProvider()
             let request = provider.createRequest()
@@ -150,6 +235,7 @@ extension LoginViewController : ASAuthorizationControllerPresentationContextProv
 extension LoginViewController : ASAuthorizationControllerDelegate {
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
         print("authorization error")
+        //showLoginButtons()
         guard let error = error as? ASAuthorizationError else {
             return
         }
@@ -158,20 +244,26 @@ extension LoginViewController : ASAuthorizationControllerDelegate {
         case .canceled:
             // user press "cancel" during the login prompt
             print("Canceled")
+            showLoginButtons()
         case .unknown:
             // user didn't login their Apple ID on the device
             print("Unknown")
+            //showLoginButtons()
         case .invalidResponse:
             // invalid response received from the login
             print("Invalid Respone")
+            showLoginButtons()
         case .notHandled:
             // authorization request not handled, maybe internet failure during login
             print("Not handled")
+            showLoginButtons()
         case .failed:
             // authorization failed
             print("Failed")
+            showLoginButtons()
         @unknown default:
             print("Default")
+            showLoginButtons()
         }
     }
     
@@ -212,6 +304,7 @@ extension LoginViewController : ASAuthorizationControllerDelegate {
                 
                 if let error = error {
                     print(error.localizedDescription)
+                    self.showLoginButtons()
                     return
                 }
                 
@@ -222,6 +315,7 @@ extension LoginViewController : ASAuthorizationControllerDelegate {
 
                     if let error = error {
                         print(error.localizedDescription)
+                        self.showLoginButtons()
                     } else {
                         print("Updated display name: \(Auth.auth().currentUser?.displayName)")
                         //self.performSegue(withIdentifier: "LogInToTagsy", sender: nil)
@@ -303,6 +397,7 @@ extension LoginViewController : ASAuthorizationControllerDelegate {
     
     @IBAction func googleSignIn(sender: UIButton) {
       GIDSignIn.sharedInstance().signIn()
+        hideLoginButtons()
     }
     
     //MARK: SIGN IN WITH GOOGLE
@@ -314,8 +409,12 @@ extension LoginViewController : ASAuthorizationControllerDelegate {
         if let error = error {
             if (error as NSError).code == GIDSignInErrorCode.hasNoAuthInKeychain.rawValue {
                 print("The user has not signed in before or they have since signed out.")
+                //render button
+                signedInWithGoogleBefore = false
             } else {
                 print("\(error.localizedDescription)")
+                print("NO INTERNET MANE")
+                showLoginButtons()
             }
             return
         }
@@ -331,6 +430,7 @@ extension LoginViewController : ASAuthorizationControllerDelegate {
         Auth.auth().signIn(with: credential) { (authResult, error) in
             if let error = error {
                 print("Error occurs when authenticate with Firebase: \(error.localizedDescription)")
+                self.showLoginButtons()
             }
                 
             // Post notification after user successfully sign in
