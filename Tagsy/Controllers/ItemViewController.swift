@@ -48,7 +48,7 @@ class ItemViewController: UIViewController, UIGestureRecognizerDelegate, UIPicke
     var mentionCount = 0
     
     let infoImage = UIImage(systemName: "ellipsis.circle")
-    
+    var instructions = UILabel(frame: CGRect(x: 0, y: 0, width: 250, height: 300))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,11 +84,45 @@ class ItemViewController: UIViewController, UIGestureRecognizerDelegate, UIPicke
          lpgr.delegate = self
          self.collectionView.addGestureRecognizer(lpgr)
         
+        
+        renderInstructions()
+        hideInstructions()
+        print("hide instructions")
     }
     
     override func viewWillAppear(_ animated: Bool) {
         displayTags()
         addTag.placeholder = tagPrompt
+    }
+    
+    func renderInstructions() {
+        view.addSubview(instructions)
+        instructions.translatesAutoresizingMaskIntoConstraints = false
+        instructions.layer.zPosition = 1
+        instructions.center = view.center
+        instructions.lineBreakMode = NSLineBreakMode.byWordWrapping
+        instructions.numberOfLines = 10
+        instructions.textAlignment = .center
+        instructions.text = "[long press on a hashtag or mention to delete it.]"
+        instructions.font = sansTitleStyle
+        instructions.textColor = textHex
+        
+        //set constraints
+        NSLayoutConstraint.activate([
+            instructions.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30.0),
+            instructions.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30.0),
+            instructions.topAnchor.constraint(equalTo: addTag.bottomAnchor, constant: 20.0), //CHANGE THIS
+            instructions.heightAnchor.constraint(equalToConstant: 500.0)
+            //infoLabel.widthAnchor.constraint(equalTo: view.widthAnchor)
+        ])
+    }
+    
+    func showInstructions() {
+        instructions.isHidden = false
+    }
+    
+    func hideInstructions() {
+        instructions.isHidden = true
     }
     
     func displayTags() {
@@ -291,7 +325,8 @@ class ItemViewController: UIViewController, UIGestureRecognizerDelegate, UIPicke
         print("OPEN MODAL ")
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Submit List", style: .default, handler: submitButtonTapped(_:)))
-        alert.addAction(UIAlertAction(title: "Delete List", style: .default, handler: deleteButtonTapped(_:)))
+        alert.addAction(UIAlertAction(title: "Instructions", style: .default, handler: instructionsButtonTapped(_:)))
+        alert.addAction(UIAlertAction(title: "Delete List", style: .destructive, handler: deleteButtonTapped(_:)))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
@@ -350,6 +385,26 @@ class ItemViewController: UIViewController, UIGestureRecognizerDelegate, UIPicke
         }
     }
     
+    //MARK: Instructions
+    func instructionsButtonTapped(_ sender: Any) {
+        let instructionsMessage = "\n• long press a tag to delete\n\n• submit list to Tagsy via 'Submit List' option of menu (must have at least 10 hashtags and/or mentions)"
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .left
+        
+        let titleAttrString = NSMutableAttributedString(string: "Instructions", attributes: [NSAttributedString.Key.font: titleStyle as Any])
+        let messageAttrString = NSMutableAttributedString(string: instructionsMessage, attributes: [
+            NSAttributedString.Key.font: sansTitleStyle as Any,
+            NSAttributedString.Key.paragraphStyle: paragraphStyle,
+        ])
+
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "okay", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+        alert.setValue(titleAttrString, forKey: "attributedTitle")
+        alert.setValue(messageAttrString, forKey: "attributedMessage")
+    }
+    
     //MARK: Delete List?
     func deleteButtonTapped(_ sender: Any) {
         let titleAttrString = NSMutableAttributedString(string: "Are you sure you want to delete this list?", attributes: [NSAttributedString.Key.font: sansTitleStyle as Any])
@@ -388,6 +443,14 @@ class ItemViewController: UIViewController, UIGestureRecognizerDelegate, UIPicke
 extension ItemViewController: UICollectionViewDataSource {
     
      func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        if allTags.count < 3 {
+            self.showInstructions()
+            print("show instructions")
+        } else {
+            self.hideInstructions()
+        }
+        
         return allTags.count
      }
 

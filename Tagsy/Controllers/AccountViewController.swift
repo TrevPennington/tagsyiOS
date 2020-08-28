@@ -16,6 +16,7 @@ class AccountViewController: UIViewController, UITextViewDelegate {
     var accountName: String?
     @IBOutlet weak var logOutButton: UIButton!
     @IBOutlet weak var privacyPolicy: UITextView!
+    @IBOutlet weak var feedbackClause: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +33,10 @@ class AccountViewController: UIViewController, UITextViewDelegate {
         privacyPolicy.attributedText = attributedString
         privacyPolicy.font = tagStyle
         privacyPolicy.textAlignment = .center
+        
+        let feedbackClauseText = "Please send any bug reports, suggestions, or ideas via the TestFlight menu. Thanks for being a part of this beta!"
+        feedbackClause?.text = feedbackClauseText
+        feedbackClause?.font = tagStyle
         
         navigationController?.title = "My Account"
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: sansTitleStyle!]

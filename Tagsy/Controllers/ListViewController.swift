@@ -12,6 +12,7 @@ import Firebase
 
 class ListViewController: UITableViewController {
     
+    @IBOutlet var tableViewOutlet: UITableView!
     var db: Firestore!
     var provider: String?
     var user: User!
@@ -52,7 +53,7 @@ class ListViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
+        tableViewOutlet.isUserInteractionEnabled = false
         loadFbData()
         
         //set the user for TagMapVC as well.
@@ -86,6 +87,7 @@ class ListViewController: UITableViewController {
                 }
                 self.tableView.reloadData()
                 print("Table view reloaded")
+                self.tableViewOutlet.isUserInteractionEnabled = true
             }
         }
     }

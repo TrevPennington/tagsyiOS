@@ -35,7 +35,9 @@ class SendPublicViewController: UIViewController, LocationSearchViewControllerDe
         }
     }
     var locationText = ""
-    let pubRef = Firestore.firestore().collection("public").document("forReview").collection("lists")
+    //let pubRef = Firestore.firestore().collection("public").document("forReview").collection("lists")
+    let pubRef = Firestore.firestore().collection("featured")
+
     var listItem = TagList(key: "", title: "", hashtags: [], mentions: [])
     
     let submitForm = [SubmitForItem(title: "set a location", subTitle: "location for use on TagMap")]
@@ -59,7 +61,7 @@ class SendPublicViewController: UIViewController, LocationSearchViewControllerDe
         navigationItem.setRightBarButton(submitButton, animated: true)
         submitButton.isEnabled = false
 
-        details.text = "submitting will send to Tagsy for review. If selected, your list will be on TagMap with a link to your Instagram for 1 month."
+        details.text = "Add a location and your Instagram handle (for credit) to submit. Submitting will send the list to Tagsy for review. If selected, your list will be displayed on TagMap with a link to your Instagram. Lists on TagMap get changed out periodically."
         listTitle.text = listItem.title
 
     }
@@ -114,7 +116,7 @@ class SendPublicViewController: UIViewController, LocationSearchViewControllerDe
                        } else {
                             print("success sending public")
                             DispatchQueue.main.async {
-                                alertUser(title: "Thank you fou submitting your list!", sender: self)
+                                alertUser(title: "Thank you fou submitting your list! We will review it and let you know if we post it!", sender: self)
                             }
                             self.navigationController?.popViewController(animated: true)
 

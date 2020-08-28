@@ -116,8 +116,21 @@ class TagMapDetailViewController: UIViewController {
 
         let username = tagMapItem?.author ?? "" // Your Instagram Username here
         print("https://www.instagram.com/\(username)")
-        guard let instagram = URL(string: "https://www.instagram.com/\(username)") else { return }
-        UIApplication.shared.open(instagram)
+//        guard let instagram = URL(string: "https://www.instagram.com/\(username)") else { return }
+//        UIApplication.shared.open(instagram)
+        
+        let appURL = URL(string: "instagram://user?username=\(username)")!
+        let application = UIApplication.shared
+        
+        if application.canOpenURL(appURL)
+        {
+            application.open(appURL)
+        }
+        else
+        {
+            let webURL = URL(string: "https://instagram.com/\(username)")!
+            application.open(webURL)
+        }
 
     }
     

@@ -104,7 +104,7 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
         NSLayoutConstraint.activate([
             loadingLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20.0),
             loadingLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20.0),
-            loadingLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -300.0),
+            loadingLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 200.0),
             loadingLabel.heightAnchor.constraint(equalToConstant: 50.0)
         ])
     }
@@ -120,7 +120,7 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
            NSLayoutConstraint.activate([
                siwaButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 50.0),
                siwaButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -50.0),
-               siwaButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -180.0),
+               siwaButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -280.0),
                siwaButton.heightAnchor.constraint(equalToConstant: 50.0)
            ])
                //func when tapped
@@ -149,11 +149,11 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
         //hide spinner
         spinner.isHidden = true
         //move title up
-        NSLayoutConstraint.activate([loadingLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -400.0)])
-        loadingLabel.layoutIfNeeded()
-        UIView.animate(withDuration: 0.5, animations: {
-            self.loadingLabel.layoutIfNeeded()
-        })
+//        NSLayoutConstraint.activate([loadingLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -400.0)])
+//        loadingLabel.layoutIfNeeded()
+//        UIView.animate(withDuration: 0.5, animations: {
+//            self.loadingLabel.layoutIfNeeded()
+//        })
         
         let infoLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 150, height: 300))
         self.view.addSubview(infoLabel)
@@ -168,7 +168,7 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
         NSLayoutConstraint.activate([
             infoLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30.0),
             infoLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -30.0),
-            infoLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -80.0),
+            infoLabel.topAnchor.constraint(equalTo: loadingLabel.bottomAnchor, constant: -140.0),
             infoLabel.heightAnchor.constraint(equalToConstant: 500.0)
             //infoLabel.widthAnchor.constraint(equalTo: view.widthAnchor)
         ])

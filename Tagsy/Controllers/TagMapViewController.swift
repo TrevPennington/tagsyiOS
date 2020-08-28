@@ -28,7 +28,7 @@ class TagMapViewController: UIViewController, MKMapViewDelegate, UISearchBarDele
     var listLocations: [ListLocation] = []
     var locationsRef: CollectionReference!
     
-    let annotationButton = UIImage(systemName: "arrow.right.square")
+    let annotationButton = UIImage(systemName: "eye")
     
     var userId: String?
     
@@ -38,7 +38,8 @@ class TagMapViewController: UIViewController, MKMapViewDelegate, UISearchBarDele
 
 
         searchBar?.delegate = self
-        self.locationsRef = Firestore.firestore().collection("public").document("forReview").collection("lists")
+        self.locationsRef = //Firestore.firestore().collection("public").document("forReview").collection("lists")
+            Firestore.firestore().collection("featured")
 
         
         locationManager.requestWhenInUseAuthorization()
@@ -99,9 +100,6 @@ class TagMapViewController: UIViewController, MKMapViewDelegate, UISearchBarDele
                 self.index = 0
             }
         }
-        
-        //let initialLocation = CLLocation(latitude: 78.6382, longitude: 35.7796)
-        //mapView.centerToLocation(initialLocation)
 
     }
     
@@ -130,18 +128,19 @@ class TagMapViewController: UIViewController, MKMapViewDelegate, UISearchBarDele
     
     
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
-                
-//        let center = CLLocationCoordinate2D(latitude: 38.573936, longitude: -92.603760) //center of USA, roughly. for example
-//        let latMeters = CLLocationDistance(10_000_000.00) //left and right pan
-//        let longMeters = CLLocationDistance(5_000_000.00) //up and down pan
-//        
-//        let coordinateRegion = MKCoordinateRegion(
-//            center: center,
-//            latitudinalMeters: latMeters,
-//            longitudinalMeters: longMeters)
-//        
-//        let cameraBoundary = MKMapView.CameraBoundary(coordinateRegion: coordinateRegion)
-//        mapView.setCameraBoundary(cameraBoundary, animated: true)
+        /* MARK: For limiting map
+        let center = CLLocationCoordinate2D(latitude: 38.573936, longitude: -92.603760) //center of USA, roughly. for example
+        let latMeters = CLLocationDistance(10_000_000.00) //left and right pan
+        let longMeters = CLLocationDistance(5_000_000.00) //up and down pan
+        
+        let coordinateRegion = MKCoordinateRegion(
+            center: center,
+            latitudinalMeters: latMeters,
+            longitudinalMeters: longMeters)
+        
+        let cameraBoundary = MKMapView.CameraBoundary(coordinateRegion: coordinateRegion)
+        mapView.setCameraBoundary(cameraBoundary, animated: true)
+ */
     }
 
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -155,6 +154,7 @@ class TagMapViewController: UIViewController, MKMapViewDelegate, UISearchBarDele
             annotationView!.canShowCallout = true
             //add button and action
             let viewBtn = UIButton(type: .detailDisclosure)
+            //viewBtn.setImage(annotationButton, for: .normal)
             annotationView?.rightCalloutAccessoryView = viewBtn
 
             
