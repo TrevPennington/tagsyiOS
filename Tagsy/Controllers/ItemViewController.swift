@@ -387,11 +387,13 @@ class ItemViewController: UIViewController, UIGestureRecognizerDelegate, UIPicke
     
     //MARK: Instructions
     func instructionsButtonTapped(_ sender: Any) {
-        let instructionsMessage = "\n• long press a tag to delete\n\n• submit list to Tagsy via 'Submit List' option of menu (must have at least 10 hashtags and/or mentions)"
+        let instructionsMessage = "\n• long press a tag to delete\n\n• submit list to Tagsy via 'Submit List' option of menu (must have at least 10 hashtags and/or mentions)\n\n• lists auto-save upon close"
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .left
         
-        let titleAttrString = NSMutableAttributedString(string: "Instructions", attributes: [NSAttributedString.Key.font: titleStyle as Any])
+        let titleAttrString = NSMutableAttributedString(string: "Instructions", attributes: [
+            NSAttributedString.Key.font: serifTitleStyle as Any
+        ])
         let messageAttrString = NSMutableAttributedString(string: instructionsMessage, attributes: [
             NSAttributedString.Key.font: sansTitleStyle as Any,
             NSAttributedString.Key.paragraphStyle: paragraphStyle,
@@ -444,7 +446,7 @@ extension ItemViewController: UICollectionViewDataSource {
     
      func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        if allTags.count < 3 {
+        if allTags.count > 0 && allTags.count < 3 {
             self.showInstructions()
             print("show instructions")
         } else {

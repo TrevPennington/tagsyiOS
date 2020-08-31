@@ -105,9 +105,9 @@ extension LocationSearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ResultCell", for: indexPath)
         let listItem = searchResults[indexPath.row]
-        let stringedItem = listItem.title
-        cell.textLabel?.text = stringedItem
-        cell.detailTextLabel?.text = listItem.administrativeArea
+        //let stringedItem = listItem.title
+        cell.textLabel?.text = listItem.name
+        cell.detailTextLabel?.text = listItem.administrativeArea ?? ""
 
         return cell
     }

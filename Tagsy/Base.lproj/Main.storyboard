@@ -262,7 +262,7 @@
                                     <action selector="titleChanged:" destination="3fn-Lj-w1o" eventType="editingChanged" id="UGu-d3-gAr"/>
                                 </connections>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" restorationIdentifier="InstaHandleInput" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="your insta (optional)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2sB-pd-fMH">
+                            <textField opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" restorationIdentifier="InstaHandleInput" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="instagram name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2sB-pd-fMH">
                                 <rect key="frame" x="60" y="106.5" width="324" height="18.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no"/>
@@ -277,7 +277,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="explainer for submitting" lineBreakMode="wordWrap" numberOfLines="20" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rTo-lF-fT5">
-                                <rect key="frame" x="25" y="389" width="364" height="20.5"/>
+                                <rect key="frame" x="25" y="225" width="364" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -326,7 +326,7 @@
                             <constraint firstItem="2sB-pd-fMH" firstAttribute="leading" secondItem="91C-ry-1DB" secondAttribute="leading" constant="60" id="cga-1W-14F"/>
                             <constraint firstItem="7J4-hH-JqX" firstAttribute="leading" secondItem="91C-ry-1DB" secondAttribute="leading" id="cyf-xe-Rme"/>
                             <constraint firstItem="91C-ry-1DB" firstAttribute="trailing" secondItem="Y1D-IM-ssg" secondAttribute="trailing" constant="40" id="e6f-Nr-b83"/>
-                            <constraint firstItem="rTo-lF-fT5" firstAttribute="top" secondItem="7J4-hH-JqX" secondAttribute="bottom" constant="103" id="ezp-9b-hKK"/>
+                            <constraint firstItem="2sB-pd-fMH" firstAttribute="bottom" secondItem="rTo-lF-fT5" secondAttribute="top" constant="-100" id="ezp-9b-hKK"/>
                             <constraint firstItem="qmo-5l-kLc" firstAttribute="leading" secondItem="91C-ry-1DB" secondAttribute="leading" constant="34" id="hIC-DN-tj3"/>
                             <constraint firstItem="91C-ry-1DB" firstAttribute="trailing" secondItem="7J4-hH-JqX" secondAttribute="trailing" id="ifU-6X-JZx"/>
                             <constraint firstItem="2sB-pd-fMH" firstAttribute="leading" secondItem="qmo-5l-kLc" secondAttribute="trailing" constant="4" id="tn2-i6-Tpt"/>

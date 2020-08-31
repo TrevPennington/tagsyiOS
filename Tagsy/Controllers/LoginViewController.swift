@@ -17,6 +17,7 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
     var currentNonce: String?
     var provider: String?
     let siwaButton = ASAuthorizationAppleIDButton()
+    var siweButton = UIButton()
     var spinner = UIActivityIndicatorView(style: .large)
     
 
@@ -37,6 +38,7 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
     }
     
     let loadingLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 30))
+    let infoLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 150, height: 300))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -120,7 +122,7 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
            NSLayoutConstraint.activate([
                siwaButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 50.0),
                siwaButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -50.0),
-               siwaButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -280.0),
+               siwaButton.topAnchor.constraint(equalTo: infoLabel.bottomAnchor, constant: -150.0),
                siwaButton.heightAnchor.constraint(equalToConstant: 50.0)
            ])
                //func when tapped
@@ -142,20 +144,33 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
                 siwgButton.imageEdgeInsets = UIEdgeInsets(top: 15, left: 50, bottom: 15, right: 245)
                 siwgButton.titleLabel?.font = UIFont.systemFont(ofSize: CGFloat(50.0 * 0.38), weight: .medium)
                 siwgButton.layer.cornerRadius = 6.0
+            
+            //MARK: EMAIL SIGN IN
+            self.view.addSubview(siweButton)
+                siweButton.setTitle("    Sign in with Email", for: .normal)
+                siweButton.translatesAutoresizingMaskIntoConstraints = false
+                NSLayoutConstraint.activate([
+                    siweButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 50.0),
+                    siweButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -50.0),
+                    siweButton.bottomAnchor.constraint(equalTo: siwgButton.bottomAnchor, constant: 70.0),
+                    siweButton.heightAnchor.constraint(equalToConstant: 50.0)
+                ])
+                siweButton.backgroundColor = hexStringToUIColor(hex: "#333333")
+                siweButton.setTitleColor(UIColor.white, for: .normal)
+                siweButton.setImage(UIImage(systemName: "envelope"), for: .normal)
+                siweButton.imageEdgeInsets = UIEdgeInsets(top: 15, left: 50, bottom: 15, right: 245)
+                siweButton.titleLabel?.font = UIFont.systemFont(ofSize: CGFloat(50.0 * 0.38), weight: .medium)
+                siweButton.layer.cornerRadius = 6.0
+                siweButton.addTarget(self, action: #selector(signInWithEmailButtonTapped), for: .touchUpInside)
+
+                
         }
     }
     
     func switchToInfo() {
         //hide spinner
         spinner.isHidden = true
-        //move title up
-//        NSLayoutConstraint.activate([loadingLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -400.0)])
-//        loadingLabel.layoutIfNeeded()
-//        UIView.animate(withDuration: 0.5, animations: {
-//            self.loadingLabel.layoutIfNeeded()
-//        })
         
-        let infoLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 150, height: 300))
         self.view.addSubview(infoLabel)
         infoLabel.translatesAutoresizingMaskIntoConstraints = false
         infoLabel.center = view.center
@@ -168,7 +183,7 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
         NSLayoutConstraint.activate([
             infoLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30.0),
             infoLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -30.0),
-            infoLabel.topAnchor.constraint(equalTo: loadingLabel.bottomAnchor, constant: -140.0),
+            infoLabel.topAnchor.constraint(equalTo: loadingLabel.bottomAnchor, constant: -200.0),
             infoLabel.heightAnchor.constraint(equalToConstant: 500.0)
             //infoLabel.widthAnchor.constraint(equalTo: view.widthAnchor)
         ])
@@ -448,6 +463,151 @@ extension LoginViewController : ASAuthorizationControllerDelegate {
         }
 
     }
+    
+    //MARK: SIGN IN WITH EMAIL
+    
+    //MARK: EXISTING ACCOUNT
+    
+    @objc func signInWithEmailButtonTapped() {
+        //open modal to log in w email or create an account
+        
+        let signInWithEmailModal = UIAlertController(title: "sign in with email", message: nil, preferredStyle: .alert)
+
+        let signInAction = UIAlertAction(title: "Sign In", style: .default, handler: { alert -> Void in
+            let email = signInWithEmailModal.textFields![0]
+            let password = signInWithEmailModal.textFields![1]
+            self.signInWithEmail(email: email.text!, password: password.text!)
+        })
+        
+        signInWithEmailModal.addTextField { textEmail in
+          textEmail.placeholder = "Enter your email"
+        }
+        
+        signInWithEmailModal.addTextField { textPassword in
+          textPassword.isSecureTextEntry = true
+          textPassword.placeholder = "Enter your password"
+        }
+        
+        let createAccountAction = UIAlertAction(title: "Create Account", style: .default, handler: { alert -> Void in
+            self.createAccountButtonTapped()
+        })
+        
+        
+        let cancelAction = UIAlertAction(title: "Cancel",
+                                         style: .default)
+        
+        signInWithEmailModal.addAction(signInAction)
+        signInWithEmailModal.addAction(createAccountAction)
+        signInWithEmailModal.addAction(cancelAction)
+        
+        
+        self.present(signInWithEmailModal, animated: true, completion: nil)
+    }
+    
+    //MARK: NEW ACCOUNT
+    
+    func createAccountButtonTapped() {
+        //open modal to log in w email or create an account
+        
+        let signUpWithEmailModal = UIAlertController(title: "sign up with email", message: nil, preferredStyle: .alert)
+
+        let signInAction = UIAlertAction(title: "Sign Up", style: .default, handler: { alert -> Void in
+            let email = signUpWithEmailModal.textFields![0]
+            let passwordOne = signUpWithEmailModal.textFields![1]
+            //let passwordTwo = signUpWithEmailModal.textFields![2]
+            
+            
+            self.signUpWithEmail(email: email.text!, password: passwordOne.text!)
+        })
+        
+        signInAction.isEnabled = false
+        
+        signUpWithEmailModal.addTextField { textEmail in
+          textEmail.placeholder = "Enter your email"
+          textEmail.addTarget(self, action: #selector(self.alertTextFieldDidChange(field:)), for: UIControl.Event.editingChanged)
+        }
+        
+        signUpWithEmailModal.addTextField { textPassword in
+          textPassword.isSecureTextEntry = true
+          textPassword.placeholder = "Enter a new password"
+          textPassword.addTarget(self, action: #selector(self.alertTextFieldDidChange(field:)), for: UIControl.Event.editingChanged)
+        }
+        
+        signUpWithEmailModal.addTextField { textPasswordTwo in
+          textPasswordTwo.isSecureTextEntry = true
+          textPasswordTwo.placeholder = "Enter password again"
+          textPasswordTwo.addTarget(self, action: #selector(self.alertTextFieldDidChange(field:)), for: UIControl.Event.editingChanged)
+        }
+        
+        let createAccountAction = UIAlertAction(title: "Existing Account", style: .default, handler: { alert -> Void in
+            self.signInWithEmailButtonTapped()
+        })
+    
+        
+        
+        let cancelAction = UIAlertAction(title: "Cancel",
+                                         style: .default)
+        
+        signUpWithEmailModal.addAction(signInAction)
+        signUpWithEmailModal.addAction(createAccountAction)
+        signUpWithEmailModal.addAction(cancelAction)
+        
+        
+        self.present(signUpWithEmailModal, animated: true, completion: nil)
+    }
+    
+    @objc func alertTextFieldDidChange(field: UITextField){
+        let alertController:UIAlertController = self.presentedViewController as! UIAlertController;
+        let emailField :UITextField  = alertController.textFields![0];
+        let passwordOne :UITextField  = alertController.textFields![1];
+        let passwordTwo :UITextField  = alertController.textFields![2];
+        let signUpAction: UIAlertAction = alertController.actions[0];
+        
+        //check
+        if emailField.text!.count != 0 && (passwordOne.text == passwordTwo.text) && passwordOne.text!.count > 5 {
+            signUpAction.isEnabled = true
+        }
+        
+        print("FIRED GUY")
+        //signUpAction.isEnabled = true
+
+    }
+    
+    //MARK: FIREBASE SIGN UP/IN
+    
+    func signInWithEmail(email: String, password: String) {
+        
+    }
+    
+    func signUpWithEmail(email: String, password: String) {
+        //sign in or up with email > send to Google
+        print("GOOGLE AUTH SEND")
+        Auth.auth().createUser(withEmail: email, password: password) {
+            user, error in
+            if error != nil {
+                if let errorCode = AuthErrorCode(rawValue: error!._code) {
+                    switch errorCode {
+                    case .weakPassword:
+                        print("password to short")
+                    default:
+                        print("error")
+                    }
+                }
+            }
+            if user != nil {
+                Auth.auth().currentUser?.sendEmailVerification {
+                    error in
+                    
+                }
+                
+                Auth.auth().signIn(withEmail: email, password: password)
+                //perform segue
+                }
+            }
+        }
+    
+    
+
     
     
 

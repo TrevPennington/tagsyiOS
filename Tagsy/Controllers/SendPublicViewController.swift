@@ -17,7 +17,7 @@ class SendPublicViewController: UIViewController, LocationSearchViewControllerDe
     func doSomethingWith(data: MKPlacemark) {
         //perfom action here. you received it from LocationSearch.
         //setLocation.text = "\(data.locality ?? "n/a"), \(data.administrativeArea ?? "n/a")" //city / state
-        submitForm[0].title = "\(data.locality ?? "n/a"), \(data.administrativeArea ?? "n/a")"
+        submitForm[0].title = "\(data.name ?? "n/a"), \(data.administrativeArea ?? "")"
         self.tableView.reloadData()
         locationSelected = data
     }
@@ -35,8 +35,8 @@ class SendPublicViewController: UIViewController, LocationSearchViewControllerDe
         }
     }
     var locationText = ""
-    //let pubRef = Firestore.firestore().collection("public").document("forReview").collection("lists")
-    let pubRef = Firestore.firestore().collection("featured")
+    let pubRef = Firestore.firestore().collection("public").document("forReview").collection("lists")
+    //let pubRef = Firestore.firestore().collection("featured")
 
     var listItem = TagList(key: "", title: "", hashtags: [], mentions: [])
     
@@ -55,6 +55,7 @@ class SendPublicViewController: UIViewController, LocationSearchViewControllerDe
         listAuthor.font = tagStyle
         handleLabel.font = tagStyle
         details.font = tagStyle
+        details.layer.zPosition = 1
         tableView.tableFooterView = UIView()
         
         submitButton = UIBarButtonItem(title: "submit", style: .plain, target: self, action: #selector(sendPublic))
@@ -105,6 +106,7 @@ class SendPublicViewController: UIViewController, LocationSearchViewControllerDe
         pubRef.addDocument(data: [
             "title" : listTitle.text!,
             "author" : listAuthor.text!,
+            "location" : locationSelected?.name ?? "n/a",
             "latitude" : String(latitude),
             "longitude" : String(longitude),
             //LIST (from prev. VC)
