@@ -16,8 +16,9 @@ protocol LocationSearchViewControllerDelegate : NSObjectProtocol {
 class LocationSearchViewController: UIViewController, UISearchBarDelegate {
 
     @IBOutlet var searchBar: UISearchBar!
-    var searchResults: [MKPlacemark] = []
     @IBOutlet var tableView: UITableView!
+    
+    var searchResults: [MKPlacemark] = []
     
     weak var delegate: LocationSearchViewControllerDelegate?
     
@@ -38,10 +39,16 @@ class LocationSearchViewController: UIViewController, UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        self.searchResults = []
-        print("searchText \(searchText)")
+        //self.searchResults = [] //this might be causing the crash
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(self.reload(_:)), object: searchBar)
+        perform(#selector(self.reload(_:)), with: searchBar, afterDelay: 0.75)
+        
+    }
+    
+    @objc func reload(_ searchBar: UISearchBar) {
+        print("searchText \(searchBar.text!)")
         let searchRequest = MKLocalSearch.Request()
-        searchRequest.naturalLanguageQuery = searchText
+        searchRequest.naturalLanguageQuery = searchBar.text
         
         let search = MKLocalSearch(request: searchRequest)
         search.start { response, error in
@@ -49,50 +56,15 @@ class LocationSearchViewController: UIViewController, UISearchBarDelegate {
                 print("Error: \(error?.localizedDescription ?? "Unknown error").")
                 return
             }
-
-//            for item in response.mapItems {
-//                print(item.placemark)
-//                //if item is in USA
-//                if item.placemark.countryCode == "US" && item.placemark.locality != nil && item.placemark.administrativeArea != nil {
-//                    //also if locality + admin isn't already in the results
-//                    self.searchResults.append(item.placemark)
-//
-//                }
+            var newArray: [MKPlacemark] = []
             for item in response.mapItems {
-            self.searchResults.append(item.placemark)
-            }
+                newArray.append(item.placemark)
                 
-//            self.searchResults = self.searchResults.filter { result in
-//                    if result.title?.contains(",") ?? false {
-//                        return false
-//                    }
-//
-//                    if result.title?.rangeOfCharacter(from: CharacterSet.decimalDigits) != nil {
-//                        return false
-//                    }
-//
-//                    if result.subtitle?.rangeOfCharacter(from: CharacterSet.decimalDigits) != nil {
-//                        return false
-//                    }
-//
-//                    return true
-//                }
-
-//                self.searchResultsCollectionView.reloadData()
-//            }
-            
+            }
+            self.searchResults = newArray
             self.tableView.reloadData()
         }
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
 
@@ -105,7 +77,6 @@ extension LocationSearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ResultCell", for: indexPath)
         let listItem = searchResults[indexPath.row]
-        //let stringedItem = listItem.title
         cell.textLabel?.text = listItem.name
         cell.detailTextLabel?.text = listItem.administrativeArea ?? ""
 
@@ -120,8 +91,8 @@ extension LocationSearchViewController: UITableViewDelegate {
         print("selected a row")
         let local = searchResults[indexPath.row]
         //print(local.name)
-        self.searchResults = []
-        self.tableView.reloadData()
+        //self.searchResults = []
+        //self.tableView.reloadData()
 
         //set location of SendPublic VC here. not working. USE DELEGATE PATTERN
         // Whenever you want to pass a data back

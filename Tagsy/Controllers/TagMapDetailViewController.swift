@@ -43,6 +43,7 @@ class TagMapDetailViewController: UIViewController {
                 
         print(userId)
         displayTags()
+        
     }
     
     func displayTags() {
@@ -116,21 +117,30 @@ class TagMapDetailViewController: UIViewController {
 
         let username = tagMapItem?.author ?? "" // Your Instagram Username here
         print("https://www.instagram.com/\(username)")
-//        guard let instagram = URL(string: "https://www.instagram.com/\(username)") else { return }
-//        UIApplication.shared.open(instagram)
         
         let appURL = URL(string: "instagram://user?username=\(username)")!
         let application = UIApplication.shared
         
-        if application.canOpenURL(appURL)
-        {
-            application.open(appURL)
-        }
-        else
-        {
-            let webURL = URL(string: "https://instagram.com/\(username)")!
-            application.open(webURL)
-        }
+        //alert for opening Insta
+        let instaModal = UIAlertController(title: nil, message: "open Instagram?", preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "yes", style: .default, handler: { alert -> Void in
+            if application.canOpenURL(appURL)
+            {
+                application.open(appURL)
+            }
+            else
+            {
+                let webURL = URL(string: "https://instagram.com/\(username)")!
+                application.open(webURL)
+            }
+        })
+        let cancelAction = UIAlertAction(title: "cancel", style: .cancel)
+        instaModal.addAction(confirmAction)
+        instaModal.addAction(cancelAction)
+        
+        self.present(instaModal, animated: true, completion: nil)
+        
+
 
     }
     
@@ -147,6 +157,8 @@ extension TagMapDetailViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! TagCell
         cell.tagName?.text = "\(allTags[indexPath.item])"
         cell.layer.cornerRadius = 12.0
+        cell.backgroundColor = .systemGray5
+        
         return cell
     }
 }

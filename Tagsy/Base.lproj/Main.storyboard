@@ -16,6 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="sectionIndexBackgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ItemCell" textLabel="U9d-5N-fFb" style="IBUITableViewCellStyleDefault" id="uu3-ER-GKS" customClass="ListViewCell" customModule="Tagsy" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
@@ -579,22 +580,11 @@
                     <view key="view" contentMode="scaleToFill" id="6GJ-6J-Hkr">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fFi-bq-1kU">
-                                <rect key="frame" x="184" y="797" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <connections>
-                                    <action selector="googleSignInSender:" destination="67a-F1-R52" eventType="touchUpInside" id="rDS-S9-DFg"/>
-                                </connections>
-                            </button>
-                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="a2c-aa-tX0"/>
                     </view>
                     <navigationItem key="navigationItem" id="rV8-HX-Gbn"/>
                     <connections>
-                        <outlet property="siwgButton" destination="fFi-bq-1kU" id="iz0-gM-t6X"/>
                         <segue destination="ugg-iL-bH2" kind="show" identifier="LogInToTagsy" id="Bj0-BW-ifO"/>
                     </connections>
                 </viewController>

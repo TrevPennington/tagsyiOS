@@ -23,6 +23,8 @@ class ListViewController: UITableViewController {
     
     @IBOutlet var addList: UIBarButtonItem!
     
+    var instructions = UILabel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -35,10 +37,15 @@ class ListViewController: UITableViewController {
         
         
         db = Firestore.firestore()
-        Auth.auth().addStateDidChangeListener { (auth, user) in
+        Auth.auth().addStateDidChangeListener { (auth, user) in //make in to a const and remove when done. possibly a didset when user is nil that triggers the removal.
           if let user = user {
             self.user = User(uid: user.uid, email: user.email!)
-            print("USER SET TO \(self.provider ?? "")")
+            print("USER SET TO \(user.uid) and \(user.email ?? "")")
+            let userRef = Firestore.firestore().collection("users").document(user.uid)
+            userRef.setData([
+                "email" : user.email ?? "",
+                "id" : user.uid
+            ])
             //set userRef here
             //TODO: once Apple sign in works
             //let userRef = self.db.collection("users").document("\(user?.uid)")
@@ -50,17 +57,44 @@ class ListViewController: UITableViewController {
             tagMapVC.userId = user.uid
           }
         }
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
         tableViewOutlet.isUserInteractionEnabled = false
         loadFbData()
-        
-        //set the user for TagMapVC as well.
-//        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//        let vc = storyBoard.instantiateViewController(withIdentifier: "TagMapViewController") as! TagMapViewController
-//        vc.userId = user.uid
+        renderInstructions()
+        hideInstructions()
+    }
+    
+    func renderInstructions() {
+        view.addSubview(instructions)
+        instructions.translatesAutoresizingMaskIntoConstraints = false
+        instructions.layer.zPosition = 1
 
+        
+        instructions.text = "tap the '+' to add a new list!"
+        instructions.textAlignment = .center
+        instructions.font = sansTitleStyle
+        instructions.textColor = textHex
+        
+        //set constraints
+        NSLayoutConstraint.activate([
+            //instructions.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30.0),
+            
+            instructions.topAnchor.constraint(equalTo: view.topAnchor, constant: 20.0),
+            instructions.heightAnchor.constraint(equalToConstant: 50.0),
+            instructions.widthAnchor.constraint(equalToConstant: view.frame.size.width),
+        ])
+        
+    }
+    
+    func showInstructions() {
+        instructions.isHidden = false
+    }
+    
+    func hideInstructions() {
+        instructions.isHidden = true
     }
     
     func loadFbData() {
@@ -81,9 +115,11 @@ class ListViewController: UITableViewController {
                     //now make a new TagList instance out of the formatted data.
                     let newTagList = TagList(key: key, title: title, hashtags: tags, mentions: mentions)
                     self.items.append(newTagList)
-                    
-          
-                    
+                }
+                if self.items.count == 0 {
+                    self.showInstructions()
+                } else {
+                    self.hideInstructions()
                 }
                 self.tableView.reloadData()
                 print("Table view reloaded")
@@ -100,6 +136,11 @@ class ListViewController: UITableViewController {
     
     //MARK: UITableView Delegate methods
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        if items.count == 0 {
+//            showInstructions()
+//        } else {
+//            hideInstructions()
+//        }
         return items.count
     }
     
