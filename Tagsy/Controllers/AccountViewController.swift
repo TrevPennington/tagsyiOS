@@ -20,6 +20,9 @@ class AccountViewController: UIViewController, UITextViewDelegate {
     let changePassword = UIButton()
     let changeEmailAddress = UIButton()
     
+    let user = Auth.auth().currentUser
+    var credential: AuthCredential!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -107,9 +110,84 @@ class AccountViewController: UIViewController, UITextViewDelegate {
     @objc func changePasswordTapped() {
         print("change password tapped")
         
-        Auth.auth().currentUser?.updatePassword(to: "") { (error) in
-          // change password final
+        let changePasswordModal = UIAlertController(title: "change password", message: nil, preferredStyle: .alert)
+        
+        changePasswordModal.addTextField { textPassword in
+          textPassword.isSecureTextEntry = true
+          textPassword.placeholder = "Enter current password"
+          textPassword.addTarget(self, action: #selector(self.alertTextFieldDidChange(field:)), for: UIControl.Event.editingChanged)
         }
+        
+        changePasswordModal.addTextField { textPassword in
+          textPassword.isSecureTextEntry = true
+          textPassword.placeholder = "Enter a new password"
+          //textPassword.addTarget(self, action: #selector(self.alertTextFieldDidChange(field:)), for: UIControl.Event.editingChanged)
+        }
+        
+        changePasswordModal.addTextField { textPassword in
+          textPassword.isSecureTextEntry = true
+          textPassword.placeholder = "New password again"
+          //textPassword.addTarget(self, action: #selector(self.alertTextFieldDidChange(field:)), for: UIControl.Event.editingChanged)
+        }
+        
+        let cancelAction = UIAlertAction(title: "cancel", style: .cancel)
+        
+
+        
+        let sendAction = UIAlertAction(title: "submit", style: .default, handler: { alert -> Void in
+            
+            let oldPassword : UITextField = changePasswordModal.textFields![0]
+            let newPassword : UITextField  = changePasswordModal.textFields![2]
+            
+            let user = Auth.auth().currentUser
+            let email = user?.email
+            let credential = EmailAuthProvider.credential(withEmail: email ?? "", password: oldPassword.text!)
+
+            user?.reauthenticate(with: credential, completion: { (result, error) in
+            if let error = error {
+                    print(error)
+                } else {
+                    //change to new password final
+                    Auth.auth().currentUser?.updatePassword(to: newPassword.text!) { (error) in
+                        if let error = error {
+                                print(error)
+                            //alert here that old password is incorrect and keep modal open.
+                            } else {
+                                print("password changed!")
+                        }
+                    }
+                }
+            })})
+    
+        
+        changePasswordModal.addAction(cancelAction)
+        changePasswordModal.addAction(sendAction)
+        sendAction.isEnabled = false
+        
+        self.present(changePasswordModal, animated: true, completion: nil)
+    }
+    
+    @objc func alertTextFieldDidChange(field: UITextField){
+        let alertController:UIAlertController = self.presentedViewController as! UIAlertController
+        let oldPassword :UITextField  = alertController.textFields![0]
+        let newPasswordOne :UITextField  = alertController.textFields![1]
+        let newPasswordTwo :UITextField  = alertController.textFields![2]
+        let sendAction: UIAlertAction = alertController.actions[1]
+        
+        //check
+        if oldPassword.text!.count > 5 &&
+            newPasswordOne.text == newPasswordTwo.text &&
+            newPasswordTwo.text!.count > 5 &&
+            newPasswordTwo.text != oldPassword.text {
+            
+            sendAction.isEnabled = true
+            print("enabled")
+        }
+        
+        print("FIRED GUY")
+        sendAction.isEnabled = true
+        //signUpAction.isEnabled = true
+
     }
     
     @objc func changeEmailTapped() {

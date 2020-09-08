@@ -22,6 +22,7 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
     let siwaButton = ASAuthorizationAppleIDButton()
     let siweButton = UIView()
     let siwgButton = UIView()
+    let suweButton = UIButton()
     let googleIcon = UIImage(named: "googleIcon")
     
     var signedInWithGoogleBefore = true {
@@ -133,7 +134,7 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
         NSLayoutConstraint.activate([
             loadingLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20.0),
             loadingLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20.0),
-            loadingLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 200.0),
+            loadingLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50.0),
             loadingLabel.heightAnchor.constraint(equalToConstant: 50.0)
         ])
     }
@@ -142,14 +143,30 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
         
         if signedInWithAppleBefore == false && signedInWithGoogleBefore == false {
             switchToInfo()
+            
+            //MARK: CREATE ACCOUNT
+            self.view.addSubview(suweButton)
+            suweButton.translatesAutoresizingMaskIntoConstraints = false
+            suweButton.setTitle("create account", for: .normal)
+            suweButton.setTitleColor(.blue, for: .normal)
+            suweButton.titleLabel?.font = sansTitleStyle
+            
+            NSLayoutConstraint.activate([
+                suweButton.topAnchor.constraint(equalTo: infoLabel.bottomAnchor, constant: -150.0),
+                suweButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            ])
+            
+            //func when tapped
+            suweButton.addTarget(self, action: #selector(createAccountButtonTapped), for: .touchUpInside)
         
-           self.view.addSubview(siwaButton)
+           
            //MARK: APPLE SIGN IN
+           self.view.addSubview(siwaButton)
            siwaButton.translatesAutoresizingMaskIntoConstraints = false
             
            NSLayoutConstraint.activate([
                siwaButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-               siwaButton.topAnchor.constraint(equalTo: infoLabel.bottomAnchor, constant: -150.0),
+               siwaButton.topAnchor.constraint(equalTo: suweButton.bottomAnchor, constant: 20.0),
                siwaButton.heightAnchor.constraint(equalToConstant: 50.0),
                siwaButton.widthAnchor.constraint(equalToConstant: 250.0)
            ])
@@ -166,7 +183,7 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
             gIconView.image = googleIcon
             gTitleView.text = "Sign in with Google"
             
-            siwgButton.backgroundColor = hexStringToUIColor(hex: "#999999")
+            siwgButton.backgroundColor = hexStringToUIColor(hex: "#efefef")
             siwgButton.layer.cornerRadius = 6.0
             
             gTitleView.font = UIFont.systemFont(ofSize: CGFloat(50.0 * 0.38), weight: .medium)
@@ -210,10 +227,11 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
             siweButton.addSubview(iconView)
             siweButton.addSubview(titleView)
                 
-            iconView.image = UIImage(systemName: "envelope")
+            iconView.image = UIImage(systemName: "envelope")?.withTintColor(.blue, renderingMode: .alwaysOriginal)
+            //iconView.tintColor = UIColor.systemGreen
             titleView.text = "Sign in with Email"
             
-            siweButton.backgroundColor = hexStringToUIColor(hex: "#999999")
+            siweButton.backgroundColor = hexStringToUIColor(hex: "#d8d8d8")
             siweButton.layer.cornerRadius = 6.0
             
             titleView.font = UIFont.systemFont(ofSize: CGFloat(50.0 * 0.38), weight: .medium)
@@ -555,6 +573,14 @@ extension LoginViewController : ASAuthorizationControllerDelegate {
     //MARK: EXISTING ACCOUNT
     
     @objc func signInWithEmailButtonTapped() {
+        
+        //open new modal
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let signInVC = storyboard.instantiateViewController(withIdentifier: "SignInWithEmailVC") as! SignInWithEmailVC
+        self.present(signInVC, animated: true, completion: nil)
+        
+        
+        
 //        hideLoginButtons()
         //open modal to log in w email or create an account
         
@@ -593,14 +619,22 @@ extension LoginViewController : ASAuthorizationControllerDelegate {
         signInWithEmailModal.addAction(cancelAction)
         
         
-        self.present(signInWithEmailModal, animated: true, completion: nil)
+        //self.present(signInWithEmailModal, animated: true, completion: nil)
     }
     
 
     
     //MARK: NEW ACCOUNT
     
-    func createAccountButtonTapped() {
+    @objc func createAccountButtonTapped() {
+        
+        //open new modal
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let signInVC = storyboard.instantiateViewController(withIdentifier: "SignInWithEmailVC") as! SignInWithEmailVC
+        signInVC.createAccountOption = true
+        self.present(signInVC, animated: true, completion: nil)
+        
+        
         //open modal to log in w email or create an account
         
         let signUpWithEmailModal = UIAlertController(title: "sign up with email", message: nil, preferredStyle: .alert)
@@ -647,7 +681,7 @@ extension LoginViewController : ASAuthorizationControllerDelegate {
         signUpWithEmailModal.addAction(cancelAction)
         
         
-        self.present(signUpWithEmailModal, animated: true, completion: nil)
+        //self.present(signUpWithEmailModal, animated: true, completion: nil)
     }
     
     @objc func alertTextFieldDidChange(field: UITextField){

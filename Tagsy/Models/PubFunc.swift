@@ -46,18 +46,15 @@ func hexStringToUIColor (hex:String) -> UIColor {
     )
 }
 
-//
-//public func checkIfSignedInAlready() {
-//    //check if user has signed in already
-//    // on the initial view controller or somewhere else, check the userdefaults
-//    if UserDefaults.standard.string(forKey: "appleAuthorizedUserIdKey") != nil {
-//            // move to main view
-//        print("USER HAS SIGNED IN BEFORE")
-//        //performSegue(withIdentifier: "LogInToTagsy", sender: nil)
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        let vc = storyboard.instantiateViewController(identifier: "tabBarController")
-//
-//        //self.super.show(vc, sender: Any)
-//
-//    }
-//}
+// Put this piece of code anywhere you like
+extension UIViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+}

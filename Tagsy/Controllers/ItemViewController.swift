@@ -56,6 +56,7 @@ class ItemViewController: UIViewController, UIGestureRecognizerDelegate, UIPicke
         //MARK: Styling
         listTitle.font = titleStyle
         addTag.font = tagStyle
+        //addTag.becomeFirstResponder()
        
         
         collectionView.collectionViewLayout = tagsLayout
@@ -68,9 +69,10 @@ class ItemViewController: UIViewController, UIGestureRecognizerDelegate, UIPicke
         navigationItem.setRightBarButtonItems([infoButton, copyAllButton], animated: true)
 
         
-        self.addTag.addTarget(self, action: #selector(onReturn), for: UIControl.Event.editingDidEndOnExit)
+        //self.addTag.addTarget(self, action: #selector(onReturn), for: UIControl.Event.editingDidEndOnExit)
         //self.addTag.placeholder = ""
-
+        self.addTag.delegate = self
+        self.hideKeyboardWhenTappedAround()
         
         //LIST SETUP
         print("PASSED USER ID IS: \(userId!)")
@@ -112,7 +114,7 @@ class ItemViewController: UIViewController, UIGestureRecognizerDelegate, UIPicke
             instructions.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30.0),
             instructions.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30.0),
             instructions.topAnchor.constraint(equalTo: addTag.bottomAnchor, constant: 20.0), //CHANGE THIS
-            instructions.heightAnchor.constraint(equalToConstant: 500.0)
+            instructions.heightAnchor.constraint(equalToConstant: 230.0)
             //infoLabel.widthAnchor.constraint(equalTo: view.widthAnchor)
         ])
     }
@@ -241,8 +243,16 @@ class ItemViewController: UIViewController, UIGestureRecognizerDelegate, UIPicke
     }
     
     //ADD NEW TAG
-    @IBAction func onReturn() {
-        self.addTag.resignFirstResponder() //close keyboard
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        //textField.resignFirstResponder()  //if desired
+        onReturn()
+        return true
+    }
+    
+    func onReturn() {
+       //self.addTag.resignFirstResponder() //close keyboard
+       //self.addTag.becomeFirstResponder() //keep keyboard open
         
         //if hashtag
         if hashtagSelected {
@@ -251,6 +261,7 @@ class ItemViewController: UIViewController, UIGestureRecognizerDelegate, UIPicke
                 displayTags()
                 collectionView.reloadData()
                 addTag.text = ""
+                self.addTag.becomeFirstResponder()
             } else { //too many
                 alertUser(title: "only 30 hashtags are allowed on Instagram", sender: self)
             }
@@ -262,11 +273,12 @@ class ItemViewController: UIViewController, UIGestureRecognizerDelegate, UIPicke
                 displayTags()
                 collectionView.reloadData()
                 addTag.text = ""
+                self.addTag.becomeFirstResponder()
             } else { //too many
                 alertUser(title: "only 5 mentions are allowed on Instagram", sender: self)
             }
         }
-
+        
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -284,6 +296,7 @@ class ItemViewController: UIViewController, UIGestureRecognizerDelegate, UIPicke
         guard gestureRecognizer.state != .ended else { return }
 
         let point = gestureRecognizer.location(in: collectionView)
+        
 
         if let indexPath = collectionView.indexPathForItem(at: point),
            let _ = collectionView.cellForItem(at: indexPath) {
@@ -293,12 +306,17 @@ class ItemViewController: UIViewController, UIGestureRecognizerDelegate, UIPicke
             if indexPath.row + 1 > listItem.hashtags.count {
                 let mentionRow = indexPath.row - listItem.hashtags.count
                 listItem.mentions.remove(at: mentionRow)
+                //gestureRecognizer.state = .ended
+                gestureRecognizer.reset()
             } else {
-                listItem.hashtags.remove(at: indexPath.row)
+                    listItem.hashtags.remove(at: indexPath.row)
+                    //gestureRecognizer.state = .ended
+                    gestureRecognizer.reset()
             }
-            
             self.displayTags()
             self.collectionView.reloadData()
+            gestureRecognizer.state = .ended
+          
         } else {
             print("Could not find index path")
         }
