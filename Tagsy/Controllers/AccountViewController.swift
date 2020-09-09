@@ -108,63 +108,72 @@ class AccountViewController: UIViewController, UITextViewDelegate {
     }
     
     @objc func changePasswordTapped() {
+        
+   
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "ChangePassOrEmailVC") as! ChangePassOrEmailVC
+        vc.renderOption = true
+        self.present(vc, animated: true, completion: nil)
+        
         print("change password tapped")
         
-        let changePasswordModal = UIAlertController(title: "change password", message: nil, preferredStyle: .alert)
         
-        changePasswordModal.addTextField { textPassword in
-          textPassword.isSecureTextEntry = true
-          textPassword.placeholder = "Enter current password"
-          textPassword.addTarget(self, action: #selector(self.alertTextFieldDidChange(field:)), for: UIControl.Event.editingChanged)
-        }
         
-        changePasswordModal.addTextField { textPassword in
-          textPassword.isSecureTextEntry = true
-          textPassword.placeholder = "Enter a new password"
-          //textPassword.addTarget(self, action: #selector(self.alertTextFieldDidChange(field:)), for: UIControl.Event.editingChanged)
-        }
+//        let changePasswordModal = UIAlertController(title: "change password", message: nil, preferredStyle: .alert)
+//
+//        changePasswordModal.addTextField { textPassword in
+//          textPassword.isSecureTextEntry = true
+//          textPassword.placeholder = "Enter current password"
+//          textPassword.addTarget(self, action: #selector(self.alertTextFieldDidChange(field:)), for: UIControl.Event.editingChanged)
+//        }
+//
+//        changePasswordModal.addTextField { textPassword in
+//          textPassword.isSecureTextEntry = true
+//          textPassword.placeholder = "Enter a new password"
+//          //textPassword.addTarget(self, action: #selector(self.alertTextFieldDidChange(field:)), for: UIControl.Event.editingChanged)
+//        }
+//
+//        changePasswordModal.addTextField { textPassword in
+//          textPassword.isSecureTextEntry = true
+//          textPassword.placeholder = "New password again"
+//          //textPassword.addTarget(self, action: #selector(self.alertTextFieldDidChange(field:)), for: UIControl.Event.editingChanged)
+//        }
+//
+//        let cancelAction = UIAlertAction(title: "cancel", style: .cancel)
+//
+//
+//
+//        let sendAction = UIAlertAction(title: "submit", style: .default, handler: { alert -> Void in
+//
+//            let oldPassword : UITextField = changePasswordModal.textFields![0]
+//            let newPassword : UITextField  = changePasswordModal.textFields![2]
+//
+//            let user = Auth.auth().currentUser
+//            let email = user?.email
+//            let credential = EmailAuthProvider.credential(withEmail: email ?? "", password: oldPassword.text!)
+//
+//            user?.reauthenticate(with: credential, completion: { (result, error) in
+//            if let error = error {
+//                    print(error)
+//                } else {
+//                    //change to new password final
+//                    Auth.auth().currentUser?.updatePassword(to: newPassword.text!) { (error) in
+//                        if let error = error {
+//                                print(error)
+//                            //alert here that old password is incorrect and keep modal open.
+//                            } else {
+//                                print("password changed!")
+//                        }
+//                    }
+//                }
+//            })})
+//
+//
+//        changePasswordModal.addAction(cancelAction)
+//        changePasswordModal.addAction(sendAction)
+//        sendAction.isEnabled = false
         
-        changePasswordModal.addTextField { textPassword in
-          textPassword.isSecureTextEntry = true
-          textPassword.placeholder = "New password again"
-          //textPassword.addTarget(self, action: #selector(self.alertTextFieldDidChange(field:)), for: UIControl.Event.editingChanged)
-        }
-        
-        let cancelAction = UIAlertAction(title: "cancel", style: .cancel)
-        
-
-        
-        let sendAction = UIAlertAction(title: "submit", style: .default, handler: { alert -> Void in
-            
-            let oldPassword : UITextField = changePasswordModal.textFields![0]
-            let newPassword : UITextField  = changePasswordModal.textFields![2]
-            
-            let user = Auth.auth().currentUser
-            let email = user?.email
-            let credential = EmailAuthProvider.credential(withEmail: email ?? "", password: oldPassword.text!)
-
-            user?.reauthenticate(with: credential, completion: { (result, error) in
-            if let error = error {
-                    print(error)
-                } else {
-                    //change to new password final
-                    Auth.auth().currentUser?.updatePassword(to: newPassword.text!) { (error) in
-                        if let error = error {
-                                print(error)
-                            //alert here that old password is incorrect and keep modal open.
-                            } else {
-                                print("password changed!")
-                        }
-                    }
-                }
-            })})
-    
-        
-        changePasswordModal.addAction(cancelAction)
-        changePasswordModal.addAction(sendAction)
-        sendAction.isEnabled = false
-        
-        self.present(changePasswordModal, animated: true, completion: nil)
+        //self.present(changePasswordModal, animated: true, completion: nil)
     }
     
     @objc func alertTextFieldDidChange(field: UITextField){
@@ -192,6 +201,10 @@ class AccountViewController: UIViewController, UITextViewDelegate {
     
     @objc func changeEmailTapped() {
         print("change email tapped")
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "ChangePassOrEmailVC") as! ChangePassOrEmailVC
+        vc.renderOption = false
+        self.present(vc, animated: true, completion: nil)
     }
 
 }

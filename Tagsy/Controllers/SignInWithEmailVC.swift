@@ -33,8 +33,6 @@ class SignInWithEmailVC: UIViewController, UITextFieldDelegate {
         print("sign in with email")
         self.hideKeyboardWhenTappedAround()
 
-        //renderAll()
-        
     }
     
     func renderAll() {
@@ -48,11 +46,19 @@ class SignInWithEmailVC: UIViewController, UITextFieldDelegate {
     }
     
     func removeAll() {
+        clearAll()
+        errorLabel.removeFromSuperview()
         passwordTextField.removeFromSuperview()
         passwordTwoTextField.removeFromSuperview()
         createAccountOrHasAccountButton.removeFromSuperview()
         signInButton.removeFromSuperview()
         forgotPasswordButton.removeFromSuperview()
+    }
+    
+    func clearAll() {
+        emailTextField.text = ""
+        passwordTextField.text = ""
+        passwordTwoTextField.text = ""
     }
     
     //MARK: RENDERS
@@ -105,7 +111,6 @@ class SignInWithEmailVC: UIViewController, UITextFieldDelegate {
     
     func renderPasswordTextField() {
         if renderOption == "signUp" || renderOption == "signIn" {
-            print("RENDER THE DAMN PASSWORD")
             view.addSubview(passwordTextField)
             passwordTextField.placeholder = "password"
             passwordTextField.font = sansTitleStyle
@@ -199,7 +204,7 @@ class SignInWithEmailVC: UIViewController, UITextFieldDelegate {
         }
         
         signInButton.titleLabel?.font = largeSansStyle
-        signInButton.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        signInButton.backgroundColor = UIColor.black.withAlphaComponent(0.2)
         signInButton.layer.cornerRadius = 6.0
         
         signInButton.translatesAutoresizingMaskIntoConstraints = false
@@ -222,10 +227,17 @@ class SignInWithEmailVC: UIViewController, UITextFieldDelegate {
         
         errorLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        NSLayoutConstraint.activate([
-            errorLabel.bottomAnchor.constraint(equalTo: createAccountOrHasAccountButton.topAnchor),
-            errorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        ])
+        if renderOption == "signIn" || renderOption == "signUp" {
+            NSLayoutConstraint.activate([
+                errorLabel.bottomAnchor.constraint(equalTo: createAccountOrHasAccountButton.topAnchor),
+                errorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            ])
+        } else if renderOption == "forgotPass" {
+            NSLayoutConstraint.activate([
+                errorLabel.bottomAnchor.constraint(equalTo: signInButton.topAnchor, constant: -10),
+                errorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            ])
+        }
     }
     
     func renderForgotPasswordButton() {
@@ -276,7 +288,7 @@ class SignInWithEmailVC: UIViewController, UITextFieldDelegate {
         let passwordTwo : UITextField  = passwordTwoTextField
         let signUpAction : UIButton = signInButton
 
-        
+        errorLabel.removeFromSuperview()
         //SIGN UP CHECK
         if renderOption == "signUp" {
             if emailField.text!.count != 0 && (passwordOne.text == passwordTwo.text) && passwordOne.text!.count > 5 {
@@ -344,6 +356,8 @@ class SignInWithEmailVC: UIViewController, UITextFieldDelegate {
                         default:
                             print(errorCode.rawValue)
                             //present to user as label
+                            self.renderError(error: "invalid credentials")
+
                         }
                     }
                 }
@@ -372,8 +386,12 @@ class SignInWithEmailVC: UIViewController, UITextFieldDelegate {
                         self.renderError(error: "email invalid")
                     case .wrongPassword:
                         self.renderError(error: "incorrect password")
+                    case .userNotFound:
+                        self.renderError(error: "user not found")
                     default:
-                        print("error")
+                        print(errorCode.rawValue)
+                        self.renderError(error: "invalid credentials")
+
                         //present to user as label
                     }
                 }
@@ -417,6 +435,7 @@ class SignInWithEmailVC: UIViewController, UITextFieldDelegate {
         Auth.auth().sendPasswordReset(withEmail: emailTextField.text!) { error in
             if error != nil {
                 print("error sending email")
+                self.renderError(error: "email invalid")
             } else {
                 alertUser(title: "reset email was sent", sender: self)
                 self.emailTextField.text = ""

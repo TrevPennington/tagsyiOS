@@ -10,21 +10,15 @@
 //MARK: PRE LAUNCH -
 
 //MARK: TODO: priority 1
-//1. Modal for confirming copy
-//2. When perfected, Use same styling for TagMap Coll View
-//3. General UI styling: sync up fonts, fix text inputs. Make tag switcher better
+//change pass
+//change email
+
 
 //MARK: TODO: priority 2
-//2. Regex Checking -
-/*
- make sure a local is selected before submitting
- make sure a title is set / author
- make sure there are hashtags
-*/
+
 
 //MARK: Known Bugs
-//1. Selecting lists too fast will crash.
-/* Possible solution: Lists are being loaded from Fb too late. Put the auth checker in view will appear, and load lists in didSet of user var at top. */
+
 
 //MARK: POST LAUNCH -
 

@@ -27,6 +27,7 @@
 		2D4559E924D88D13004F2B26 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D4559E824D88D13004F2B26 /* LoginViewController.swift */; };
 		2D4559EC24D8E041004F2B26 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D4559EB24D8E041004F2B26 /* User.swift */; };
 		2D5196A92506BCE9009BF7A0 /* SignInWithEmailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5196A82506BCE9009BF7A0 /* SignInWithEmailVC.swift */; };
+		2D5422BA250943BB00D1C1D8 /* ChangePassOrEmailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5422B9250943BB00D1C1D8 /* ChangePassOrEmailVC.swift */; };
 		2D5F7B5824E441B7002C37C3 /* SendPublicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5F7B5724E441B7002C37C3 /* SendPublicViewController.swift */; };
 		2D64B26B24F1BA0E00B15D18 /* ListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D64B26A24F1BA0E00B15D18 /* ListViewCell.swift */; };
 		2D66306724E1E07D0056B498 /* TagMapDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D66306624E1E07D0056B498 /* TagMapDetailViewController.swift */; };
@@ -61,6 +62,7 @@
 		2D4559EA24D894E3004F2B26 /* Tagsy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Tagsy.entitlements; sourceTree = "<group>"; };
 		2D4559EB24D8E041004F2B26 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		2D5196A82506BCE9009BF7A0 /* SignInWithEmailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInWithEmailVC.swift; sourceTree = "<group>"; };
+		2D5422B9250943BB00D1C1D8 /* ChangePassOrEmailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePassOrEmailVC.swift; sourceTree = "<group>"; };
 		2D5F7B5724E441B7002C37C3 /* SendPublicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendPublicViewController.swift; sourceTree = "<group>"; };
 		2D64B26A24F1BA0E00B15D18 /* ListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ListViewCell.swift; path = /Users/trevorpennington/iOS/Tagsy/Tagsy/Models/ListViewCell.swift; sourceTree = "<absolute>"; };
 		2D66306624E1E07D0056B498 /* TagMapDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagMapDetailViewController.swift; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 				2D66306624E1E07D0056B498 /* TagMapDetailViewController.swift */,
 				2D4559E824D88D13004F2B26 /* LoginViewController.swift */,
 				2D12C76A24DB0C37004329D9 /* AccountViewController.swift */,
+				2D5422B9250943BB00D1C1D8 /* ChangePassOrEmailVC.swift */,
 				2D5F7B5724E441B7002C37C3 /* SendPublicViewController.swift */,
 				2D2E31AA24E492470075FDAB /* LocationSearchViewController.swift */,
 				2DE5177624E32DD80096A1B0 /* Notes.swift */,
@@ -307,6 +310,7 @@
 				2DE5177524E2CC450096A1B0 /* ListLocation.swift in Sources */,
 				2D1C215D24ED6EDD00B25270 /* Styles.swift in Sources */,
 				2DE5177724E32DD80096A1B0 /* Notes.swift in Sources */,
+				2D5422BA250943BB00D1C1D8 /* ChangePassOrEmailVC.swift in Sources */,
 				2D4123D724D65295000DD3A7 /* SceneDelegate.swift in Sources */,
 				2D2E31AB24E492470075FDAB /* LocationSearchViewController.swift in Sources */,
 				2D28401024DC6E6000D0FDD8 /* TabBarViewController.swift in Sources */,
