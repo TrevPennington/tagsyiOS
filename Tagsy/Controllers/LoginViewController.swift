@@ -577,6 +577,7 @@ extension LoginViewController : ASAuthorizationControllerDelegate {
         //open new modal
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let signInVC = storyboard.instantiateViewController(withIdentifier: "SignInWithEmailVC") as! SignInWithEmailVC
+        signInVC.renderOption = "signIn"
         self.present(signInVC, animated: true, completion: nil)
         
         
@@ -631,7 +632,7 @@ extension LoginViewController : ASAuthorizationControllerDelegate {
         //open new modal
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let signInVC = storyboard.instantiateViewController(withIdentifier: "SignInWithEmailVC") as! SignInWithEmailVC
-        signInVC.createAccountOption = true
+        signInVC.renderOption = "signUp"
         self.present(signInVC, animated: true, completion: nil)
         
         
