@@ -29,6 +29,7 @@ class ListViewController: UITableViewController {
         super.viewDidLoad()
         
         //navigationController?.setNavigationBarHidden(false, animated: true)
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: sansTitleStyle!]
         navigationItem.hidesBackButton = true
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: accountButton, style: .plain, target: self, action: #selector(goToAccount))
         tableView.tableFooterView = UIView()

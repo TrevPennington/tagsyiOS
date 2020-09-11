@@ -26,6 +26,13 @@ class SignInWithEmailVC: UIViewController, UITextFieldDelegate {
             renderAll()
         }
     }
+    
+    let spinner = UIActivityIndicatorView(style: .medium)
+    var loading = false {
+        didSet {
+            toggleLoading()
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -215,7 +222,24 @@ class SignInWithEmailVC: UIViewController, UITextFieldDelegate {
         ])
         
         signInButton.isEnabled = false
-        
+    }
+    
+    func toggleLoading() {
+        if loading {
+            signInButton.isHidden = true
+            view.addSubview(spinner)
+            spinner.translatesAutoresizingMaskIntoConstraints = false
+            spinner.startAnimating()
+
+            NSLayoutConstraint.activate([
+                spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                spinner.topAnchor.constraint(equalTo: signInButton.topAnchor)
+
+            ])
+        } else {
+            spinner.isHidden = true
+            signInButton.isHidden = false
+        }
     }
     
     func renderError(error: String) {
@@ -330,17 +354,18 @@ class SignInWithEmailVC: UIViewController, UITextFieldDelegate {
         let email = emailTextField.text!
         let password = passwordTextField.text!
         
-        signInButton.isEnabled = false
-        //show activity indicator instead
+        loading = true
         
         //MARK: SIGN IN
         if renderOption == "signIn" {
             self.signInFinal(email: email, password: password)
+            
         //MARK: SIGN UP
         } else {
             Auth.auth().createUser(withEmail: email, password: password) { //create new user method
                 user, error in
                 if error != nil {
+                    self.loading = false
                     if let errorCode = AuthErrorCode(rawValue: error!._code) {
                         switch errorCode {
                         case .weakPassword:
@@ -364,9 +389,14 @@ class SignInWithEmailVC: UIViewController, UITextFieldDelegate {
                 if user != nil {
                     Auth.auth().currentUser?.sendEmailVerification {
                         error in
-        
+                        if error != nil {
+                            self.loading = false
+                            self.renderError(error: "error sending email verification")
+                        } else {
+                            //self.signInFinal(email: email, password: password)
+                            alertUser(title: "verification email sent, please verify and then log in!", sender: self)
+                        }
                     }
-                    self.signInFinal(email: email, password: password)
                     }
                 }
             }
@@ -376,6 +406,7 @@ class SignInWithEmailVC: UIViewController, UITextFieldDelegate {
         Auth.auth().signIn(withEmail: email, password: password) {
             user, error in
             if error != nil {
+                self.loading = false
                 if let errorCode = AuthErrorCode(rawValue: error!._code) {
                     switch errorCode {
                     case .weakPassword:
@@ -396,31 +427,39 @@ class SignInWithEmailVC: UIViewController, UITextFieldDelegate {
                     }
                 }
             } else {
-                UserDefaults.standard.set(true, forKey: "emailSignedIn")
+                
                 //set firestore email and id
                 let listener = Auth.auth().addStateDidChangeListener { (auth, user) in
                     if let user = user {
-                        let userCollection = Firestore.firestore().collection("users")
-                        userCollection.document(user.uid).setData([
-                            "email" : "\(user.email!)",
-                            "id" : "\(user.uid)"
-                        ])
-                        print("USER INFO SET TO FROM EMAIL SIGN IN \(user.uid) and \(user.email ?? "")")
+                        if user.isEmailVerified == false {
+                            //alertUser(title: "please verify your email to continue", sender: self)
+                            self.resendVerificationEmailModal()
+                            self.loading = false
+                            //MARK: render resend verification
+                        } else {
+                            let userCollection = Firestore.firestore().collection("users")
+                            userCollection.document(user.uid).setData([
+                                "email" : "\(user.email!)",
+                                "id" : "\(user.uid)"
+                            ])
+                            print("USER INFO SET TO FROM EMAIL SIGN IN \(user.uid) and \(user.email ?? "")")
+                            UserDefaults.standard.set(true, forKey: "emailSignedIn")
+                            self.enterTagsy()
+                        }
                     }
                 }
-                //perform segue and remove listener
+                //remove listener
                 Auth.auth().removeStateDidChangeListener(listener)
-
-                //MARK: Go to Home screen
-
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let vc = storyboard.instantiateViewController(identifier: "tabBarController")
-                vc.modalPresentationStyle = .fullScreen
-                vc.modalTransitionStyle = .crossDissolve
-                self.show(vc, sender: self)
-
             }
         }
+    }
+    
+    func enterTagsy() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(identifier: "tabBarController")
+        vc.modalPresentationStyle = .fullScreen
+        vc.modalTransitionStyle = .crossDissolve
+        self.show(vc, sender: self)
     }
     
     //MARK: FORGOT PASSWORD
@@ -432,17 +471,42 @@ class SignInWithEmailVC: UIViewController, UITextFieldDelegate {
     }
     
     @objc func forgotPasswordFinal() {
+        loading = true
+
         Auth.auth().sendPasswordReset(withEmail: emailTextField.text!) { error in
             if error != nil {
+                self.loading = false
                 print("error sending email")
                 self.renderError(error: "email invalid")
             } else {
                 alertUser(title: "reset email was sent", sender: self)
                 self.emailTextField.text = ""
+                self.loading = false
             }
         }
         
         }
+    
+    func resendVerificationEmailModal() {
+        let modal = UIAlertController(title: nil, message: "please verify this account via the email we sent you!", preferredStyle: .alert)
+        
+        let resendAction = UIAlertAction(title: "resend email", style: .default) { action in
+            Auth.auth().currentUser?.sendEmailVerification { (error) in
+                if error != nil {
+                    self.loading = false
+                    self.renderError(error: "error sending email verification")
+                } else {
+                    //self.signInFinal(email: email, password: password)
+                    alertUser(title: "verification email resent!", sender: self)
+                }
+            }
+        }
+        
+        modal.addAction(UIAlertAction(title: "okay", style: .cancel, handler: nil))
+        modal.addAction(resendAction)
+        
+        self.present(modal, animated: true, completion: nil)
+    }
 
     }
 

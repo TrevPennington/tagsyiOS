@@ -420,9 +420,10 @@ class ItemViewController: UIViewController, UIGestureRecognizerDelegate, UIPicke
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(title: "okay", style: .cancel, handler: nil))
-        self.present(alert, animated: true, completion: nil)
         alert.setValue(titleAttrString, forKey: "attributedTitle")
         alert.setValue(messageAttrString, forKey: "attributedMessage")
+        
+        self.present(alert, animated: true, completion: nil)
     }
     
     //MARK: Delete List?

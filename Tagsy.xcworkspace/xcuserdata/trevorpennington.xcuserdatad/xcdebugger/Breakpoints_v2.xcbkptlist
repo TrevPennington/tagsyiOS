@@ -14,8 +14,8 @@
             filePath = "Tagsy/Controllers/LoginViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "587"
-            endingLineNumber = "587"
+            startingLineNumber = "586"
+            endingLineNumber = "586"
             landmarkName = "signInWithEmailButtonTapped()"
             landmarkType = "7">
          </BreakpointContent>

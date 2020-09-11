@@ -296,6 +296,7 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
         siwgButton.isHidden = true
         siwaButton.isHidden = true
         siweButton.isHidden = true
+        suweButton.isHidden = true
         //show activity indicator
         spinner.isHidden = false
     }
@@ -304,12 +305,10 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
         siwgButton.isHidden = false
         siwaButton.isHidden = false
         siweButton.isHidden = false
+        suweButton.isHidden = false
         //hide activity indicator
         spinner.isHidden = true
     }
-    
-    
-    
     
     
     // MARK: APPLE
@@ -367,7 +366,7 @@ extension LoginViewController : ASAuthorizationControllerDelegate {
         case .unknown:
             // user didn't login their Apple ID on the device
             print("Unknown")
-            //showLoginButtons()
+            showLoginButtons()
         case .invalidResponse:
             // invalid response received from the login
             print("Invalid Respone")

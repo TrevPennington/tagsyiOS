@@ -12,11 +12,11 @@ import GoogleSignIn
 
 class AccountViewController: UIViewController, UITextViewDelegate {
 
-    @IBOutlet weak var accountNameLabel: UILabel!
+    let accountNameLabel = UILabel()
     var accountName: String?
-    @IBOutlet weak var logOutButton: UIButton!
-    @IBOutlet weak var privacyPolicy: UITextView!
-    @IBOutlet weak var feedbackClause: UILabel!
+    let logOutButton = UIButton()
+    let privacyPolicy = UITextView()
+    let feedbackClause = UILabel(frame: CGRect(x: 20.0, y: 90.0, width: 250.0, height: 100.0))
     let changePassword = UIButton()
     let changeEmailAddress = UIButton()
     
@@ -26,35 +26,137 @@ class AccountViewController: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationController?.title = "My Account"
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: sansTitleStyle!]
         
-        accountNameLabel.text = "logged in as: \(accountName ?? "apple user")"
-        
+        renderAll()
+    }
+    
+    func renderAll() {
+        renderAccountLabel()
+        renderClause()
+        renderLogOutButton()
+        renderPrivacyPolicy()
         if UserDefaults.standard.bool(forKey: "emailSignedIn") {
             renderEmailOptions()
         }
+    }
+
+    
+    //MARK: RENDERS
+    
+    func renderAccountLabel() {
+        view.addSubview(accountNameLabel)
         
+        accountNameLabel.text = "logged in as: \(accountName ?? "apple user")"
         accountNameLabel.font = tagStyle
-        logOutButton.setTitle("log out", for: .normal)
+        accountNameLabel.textAlignment = .center
         
-        logOutButton.titleLabel?.font = sansTitleStyle
+        accountNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            accountNameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 120),
+            accountNameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            accountNameLabel.widthAnchor.constraint(equalTo: view.widthAnchor)
+        ])
+    }
+    
+    func renderClause(){
+        view.addSubview(feedbackClause)
+        
+        let feedbackClauseText = "Please send any bug reports, suggestions, or ideas via the TestFlight menu. Thanks for being a part of this beta!"
+        feedbackClause.text = feedbackClauseText
+        feedbackClause.font = tagStyle
+        feedbackClause.textAlignment = .center
+        feedbackClause.lineBreakMode = NSLineBreakMode.byWordWrapping
+
+        feedbackClause.numberOfLines = 10
+        
+        feedbackClause.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            feedbackClause.topAnchor.constraint(equalTo: accountNameLabel.bottomAnchor, constant: 20),
+            feedbackClause.heightAnchor.constraint(equalToConstant: 70.0),
+            feedbackClause.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            feedbackClause.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -80.0)
+        ])
+    }
+    
+    func renderLogOutButton() {
+        view.addSubview(logOutButton)
+        
+        logOutButton.setTitle("log out", for: .normal)
+        logOutButton.titleLabel?.font = largeSansStyle
+        logOutButton.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+        logOutButton.layer.cornerRadius = 6.0
+        
+        logOutButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            logOutButton.topAnchor.constraint(equalTo: feedbackClause.bottomAnchor, constant: 20),
+            logOutButton.heightAnchor.constraint(equalToConstant: 40.0),
+            logOutButton.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -270.0),
+            logOutButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+        
+        logOutButton.addTarget(self, action: #selector(logOutTapped), for: .touchUpInside)
+
+    }
+    
+    func renderPrivacyPolicy() {
+        view.addSubview(privacyPolicy)
         
         let attributedString = NSMutableAttributedString(string: "Tagsy's privacy policy")
         attributedString.addAttribute(.link, value: "https://elastic-austin-b65359.netlify.app", range: NSRange(location: 0, length: attributedString.string.count))
         privacyPolicy.attributedText = attributedString
         privacyPolicy.font = tagStyle
         privacyPolicy.textAlignment = .center
+        privacyPolicy.textColor = .black
         
-        let feedbackClauseText = "Please send any bug reports, suggestions, or ideas via the TestFlight menu. Thanks for being a part of this beta!"
-        feedbackClause?.text = feedbackClauseText
-        feedbackClause?.font = tagStyle
-        
-        navigationController?.title = "My Account"
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: sansTitleStyle!]
-        //navigationController?.navigationBar.prefersLargeTitles = true
+        privacyPolicy.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            privacyPolicy.topAnchor.constraint(equalTo: logOutButton.bottomAnchor, constant: 20),
+            privacyPolicy.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            privacyPolicy.heightAnchor.constraint(equalToConstant: 30.0),
+            privacyPolicy.widthAnchor.constraint(equalToConstant: 200.0)
+        ])
     }
-
     
-    @IBAction func logOut() {
+    func renderEmailOptions() {
+        view.addSubview(changePassword) //opens alert controller w/ old pass and new pass text fields, and submit
+        view.addSubview(changeEmailAddress)
+        
+        changePassword.setTitle("change password", for: .normal)
+        changePassword.setTitleColor(textHex, for: .normal)
+        changePassword.titleLabel?.font = sansTitleStyle
+        
+        changePassword.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            changePassword.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            changePassword.topAnchor.constraint(equalTo: privacyPolicy.bottomAnchor, constant: 20.0),
+            changePassword.heightAnchor.constraint(equalToConstant: 40.0),
+            changePassword.widthAnchor.constraint(equalToConstant: 150.0)
+        ])
+        
+        changeEmailAddress.setTitle("change email", for: .normal)
+        changeEmailAddress.setTitleColor(textHex, for: .normal)
+        changeEmailAddress.titleLabel?.font = sansTitleStyle
+
+        
+        changeEmailAddress.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            changeEmailAddress.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            changeEmailAddress.topAnchor.constraint(equalTo: changePassword.bottomAnchor, constant: 6.0),
+            changeEmailAddress.heightAnchor.constraint(equalToConstant: 40.0),
+            changeEmailAddress.widthAnchor.constraint(equalToConstant: 150.0)
+        ])
+        
+        
+            //funcs when tapped
+        changePassword.addTarget(self, action: #selector(changePasswordTapped), for: .touchUpInside)
+        changeEmailAddress.addTarget(self, action: #selector(changeEmailTapped), for: .touchUpInside)
+    }
+    
+    //MARK: ACTIONS
+    
+    @objc func logOutTapped() {
         print("LOG OUT PRESSED")
         
             //add a property to user when logging in (Apple or Google)
@@ -74,129 +176,16 @@ class AccountViewController: UIViewController, UITextViewDelegate {
         }
     }
     
-    func renderEmailOptions() {
-        print("render email options")
-        view.addSubview(changePassword) //opens alert controller w/ old pass and new pass text fields, and submit
-        view.addSubview(changeEmailAddress)
-        
-        changePassword.setTitle("change password", for: .normal)
-        changePassword.setTitleColor(textHex, for: .normal)
-        
-        changePassword.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            changePassword.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            changePassword.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -200.0),
-            changePassword.heightAnchor.constraint(equalToConstant: 50.0),
-            changePassword.widthAnchor.constraint(equalToConstant: 150.0)
-        ])
-        
-        changeEmailAddress.setTitle("change email", for: .normal)
-        changeEmailAddress.setTitleColor(textHex, for: .normal)
-        
-        changeEmailAddress.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            changeEmailAddress.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            changeEmailAddress.topAnchor.constraint(equalTo: changePassword.bottomAnchor, constant: 6.0),
-            changeEmailAddress.heightAnchor.constraint(equalToConstant: 50.0),
-            changeEmailAddress.widthAnchor.constraint(equalToConstant: 150.0)
-        ])
-        
-        
-            //funcs when tapped
-        changePassword.addTarget(self, action: #selector(changePasswordTapped), for: .touchUpInside)
-        changeEmailAddress.addTarget(self, action: #selector(changeEmailTapped), for: .touchUpInside)
-    }
-    
     @objc func changePasswordTapped() {
         
    
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "ChangePassOrEmailVC") as! ChangePassOrEmailVC
         vc.renderOption = true
-        self.present(vc, animated: true, completion: nil)
-        
+        self.navigationController?.pushViewController(vc, animated: true)
+
         print("change password tapped")
         
-        
-        
-//        let changePasswordModal = UIAlertController(title: "change password", message: nil, preferredStyle: .alert)
-//
-//        changePasswordModal.addTextField { textPassword in
-//          textPassword.isSecureTextEntry = true
-//          textPassword.placeholder = "Enter current password"
-//          textPassword.addTarget(self, action: #selector(self.alertTextFieldDidChange(field:)), for: UIControl.Event.editingChanged)
-//        }
-//
-//        changePasswordModal.addTextField { textPassword in
-//          textPassword.isSecureTextEntry = true
-//          textPassword.placeholder = "Enter a new password"
-//          //textPassword.addTarget(self, action: #selector(self.alertTextFieldDidChange(field:)), for: UIControl.Event.editingChanged)
-//        }
-//
-//        changePasswordModal.addTextField { textPassword in
-//          textPassword.isSecureTextEntry = true
-//          textPassword.placeholder = "New password again"
-//          //textPassword.addTarget(self, action: #selector(self.alertTextFieldDidChange(field:)), for: UIControl.Event.editingChanged)
-//        }
-//
-//        let cancelAction = UIAlertAction(title: "cancel", style: .cancel)
-//
-//
-//
-//        let sendAction = UIAlertAction(title: "submit", style: .default, handler: { alert -> Void in
-//
-//            let oldPassword : UITextField = changePasswordModal.textFields![0]
-//            let newPassword : UITextField  = changePasswordModal.textFields![2]
-//
-//            let user = Auth.auth().currentUser
-//            let email = user?.email
-//            let credential = EmailAuthProvider.credential(withEmail: email ?? "", password: oldPassword.text!)
-//
-//            user?.reauthenticate(with: credential, completion: { (result, error) in
-//            if let error = error {
-//                    print(error)
-//                } else {
-//                    //change to new password final
-//                    Auth.auth().currentUser?.updatePassword(to: newPassword.text!) { (error) in
-//                        if let error = error {
-//                                print(error)
-//                            //alert here that old password is incorrect and keep modal open.
-//                            } else {
-//                                print("password changed!")
-//                        }
-//                    }
-//                }
-//            })})
-//
-//
-//        changePasswordModal.addAction(cancelAction)
-//        changePasswordModal.addAction(sendAction)
-//        sendAction.isEnabled = false
-        
-        //self.present(changePasswordModal, animated: true, completion: nil)
-    }
-    
-    @objc func alertTextFieldDidChange(field: UITextField){
-        let alertController:UIAlertController = self.presentedViewController as! UIAlertController
-        let oldPassword :UITextField  = alertController.textFields![0]
-        let newPasswordOne :UITextField  = alertController.textFields![1]
-        let newPasswordTwo :UITextField  = alertController.textFields![2]
-        let sendAction: UIAlertAction = alertController.actions[1]
-        
-        //check
-        if oldPassword.text!.count > 5 &&
-            newPasswordOne.text == newPasswordTwo.text &&
-            newPasswordTwo.text!.count > 5 &&
-            newPasswordTwo.text != oldPassword.text {
-            
-            sendAction.isEnabled = true
-            print("enabled")
-        }
-        
-        print("FIRED GUY")
-        sendAction.isEnabled = true
-        //signUpAction.isEnabled = true
-
     }
     
     @objc func changeEmailTapped() {
@@ -204,9 +193,7 @@ class AccountViewController: UIViewController, UITextViewDelegate {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "ChangePassOrEmailVC") as! ChangePassOrEmailVC
         vc.renderOption = false
-        self.present(vc, animated: true, completion: nil)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 
 }
-
-//MARK: TODO: reauth a user upon error of change email / change password (bottom of manage users page in google docs)

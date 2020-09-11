@@ -16,9 +16,7 @@ class ChangePassOrEmailVC: UIViewController {
             renderAll()
         }
     }
-    
-    let modalTitle = UILabel()
-    
+
     let emailTextField = UITextField()
     let passwordTextField = UITextField()
     
@@ -28,14 +26,22 @@ class ChangePassOrEmailVC: UIViewController {
     let errorMessage = UILabel()
     
     let submitButton = UIButton()
+    let spinner = UIActivityIndicatorView(style: .medium)
+    
+    var loading = false {
+        didSet {
+            toggleLoading()
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        renderOption ? (self.title = "change password") : (self.title = "change email")
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: sansTitleStyle!]
     }
     
     func renderAll() {
-        renderTitle()
         renderEmailField()
         renderPasswordField()
         renderChange1()
@@ -43,20 +49,6 @@ class ChangePassOrEmailVC: UIViewController {
         renderChangeButton()
     }
     
-    func renderTitle() {
-        view.addSubview(modalTitle)
-        
-        renderOption ? (modalTitle.text = "change password") : (modalTitle.text = "change email")
-        
-        modalTitle.font = largeSansStyle
-        
-        modalTitle.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            modalTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 40),
-            modalTitle.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        ])
-    }
     
     func renderEmailField() {
         view.addSubview(emailTextField)
@@ -72,7 +64,7 @@ class ChangePassOrEmailVC: UIViewController {
         
         
         NSLayoutConstraint.activate([
-            emailTextField.topAnchor.constraint(equalTo: modalTitle.bottomAnchor, constant: 40),
+            emailTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
             emailTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             emailTextField.widthAnchor.constraint(equalToConstant: 220.0)
         ])
@@ -189,7 +181,25 @@ class ChangePassOrEmailVC: UIViewController {
         submitButton.isEnabled = false
     }
     
+    func toggleLoading() {
+        if loading {
+            submitButton.isHidden = true
+            view.addSubview(spinner)
+            spinner.translatesAutoresizingMaskIntoConstraints = false
+            spinner.startAnimating()
+
+            NSLayoutConstraint.activate([
+                spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                spinner.topAnchor.constraint(equalTo: changeTextField2.bottomAnchor, constant: 40.0)
+
+            ])
+        } else {
+            spinner.isHidden = true
+            submitButton.isHidden = false
+        }
+    }
     
+    //MARK: ACTIONS
     
     @objc func alertTextFieldDidChange(field: UITextField){
         let emailField : UITextField  = emailTextField
@@ -224,16 +234,20 @@ class ChangePassOrEmailVC: UIViewController {
         
     }
     
-    //MARK: ACTIONS
+
     
     @objc func changePasswordAction() {
         print("change password final")
+        
+        loading = true
         
         let user = Auth.auth().currentUser
         let credential = EmailAuthProvider.credential(withEmail: emailTextField.text!, password: passwordTextField.text!)
         user?.reauthenticate(with: credential, completion: { (result, error) in
         if let error = error {
+            self.loading = false
             if let errorCode = AuthErrorCode(rawValue: error._code) {
+                print("error at sign in")
                 switch errorCode {
                 case .wrongPassword:
                     self.renderErrorMessage(error: "incorrect password")
@@ -241,16 +255,19 @@ class ChangePassOrEmailVC: UIViewController {
                     self.renderErrorMessage(error: "invalid email")
                 case .userNotFound:
                     self.renderErrorMessage(error: "user not found")
+                case .userMismatch:
+                    self.renderErrorMessage(error: "invalid email")
                 default:
                     self.renderErrorMessage(error: "invalid")
+                    print("default error at sign in \(error._code)")
                 }}
-                print(error)
-            print("error updating password")
             return
             } else {
                 //change to new password final
             Auth.auth().currentUser?.updatePassword(to: self.changeTextField2.text!) { (error) in
                     if let error = error {
+                        self.loading = false
+                        print("error at password change")
                         if let errorCode = AuthErrorCode(rawValue: error._code) {
                             switch errorCode {
                             case .wrongPassword:
@@ -261,16 +278,16 @@ class ChangePassOrEmailVC: UIViewController {
                                 self.renderErrorMessage(error: "user not found")
                             default:
                                 self.renderErrorMessage(error: "invalid")
+                                print("default error at pass change \(error._code)")
                             }}
-                            print(error)
-                        print("error updating password")
+                        
                         //alert here that old password is incorrect and keep modal open.
                         } else {
                             print("password changed!")
                         DispatchQueue.main.async {
                             alertUser(title: "password change success!", sender: self)
                         }
-                        self.dismiss(animated: true, completion: nil)
+                        self.navigationController?.popViewController(animated: true)
                     }
                 }
             }
@@ -285,7 +302,9 @@ class ChangePassOrEmailVC: UIViewController {
         let credential = EmailAuthProvider.credential(withEmail: emailTextField.text!, password: passwordTextField.text!)
         user?.reauthenticate(with: credential, completion: { (result, error) in
         if let error = error {
+            self.loading = false
             if let errorCode = AuthErrorCode(rawValue: error._code) {
+                print("error at sign in")
                 switch errorCode {
                 case .wrongPassword:
                     self.renderErrorMessage(error: "incorrect password")
@@ -293,34 +312,37 @@ class ChangePassOrEmailVC: UIViewController {
                     self.renderErrorMessage(error: "invalid email")
                 case .userNotFound:
                     self.renderErrorMessage(error: "user not found")
+                case .userMismatch:
+                    self.renderErrorMessage(error: "invalid email")
                 default:
                     self.renderErrorMessage(error: "invalid")
+                    print("default error at sign in \(error._code)")
                 }}
-                print(error)
-            print("error updating password")
+            return
             } else {
                 //change to new password final
             print("success signing in")
             Auth.auth().currentUser?.updateEmail(to: self.changeTextField2.text!) { (error) in
                     if let error = error {
+                        self.loading = false
+                        print("error at email change")
                         if let errorCode = AuthErrorCode(rawValue: error._code) {
                             switch errorCode {
-                            case .wrongPassword:
-                                self.renderErrorMessage(error: "incorrect password")
+                            case .credentialAlreadyInUse:
+                                self.renderErrorMessage(error: "email already in use")
                             case .invalidEmail:
                                 self.renderErrorMessage(error: "invalid email")
                             case .userNotFound:
                                 self.renderErrorMessage(error: "user not found")
                             default:
-                                self.renderErrorMessage(error: "invalid")
+                                self.renderErrorMessage(error: "invalid email")
+                                print("default error at email change \(error._code)")
                             }}
-                            print(error)
-                        print("error changing email")
                         //alert here that new email is invalid
                         } else {
                             print("email changed!")
                             alertUser(title: "email change success!", sender: self)
-                            self.dismiss(animated: true, completion: nil)
+                            self.navigationController?.popViewController(animated: true)
                     }
                 }
             }
