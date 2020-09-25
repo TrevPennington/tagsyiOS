@@ -85,7 +85,8 @@ class AccountViewController: UIViewController, UITextViewDelegate {
         
         logOutButton.setTitle("log out", for: .normal)
         logOutButton.titleLabel?.font = largeSansStyle
-        logOutButton.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+        logOutButton.setTitleColor(.label, for: .normal)
+        logOutButton.backgroundColor = background.withAlphaComponent(0.7) //change to dark mode compatable.
         logOutButton.layer.cornerRadius = 6.0
         
         logOutButton.translatesAutoresizingMaskIntoConstraints = false

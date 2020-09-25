@@ -148,7 +148,7 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
             self.view.addSubview(suweButton)
             suweButton.translatesAutoresizingMaskIntoConstraints = false
             suweButton.setTitle("create account", for: .normal)
-            suweButton.setTitleColor(.blue, for: .normal)
+            suweButton.setTitleColor(.systemGreen, for: .normal)
             suweButton.titleLabel?.font = sansTitleStyle
             
             NSLayoutConstraint.activate([
@@ -183,7 +183,7 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
             gIconView.image = googleIcon
             gTitleView.text = "Sign in with Google"
             
-            siwgButton.backgroundColor = hexStringToUIColor(hex: "#efefef")
+            siwgButton.backgroundColor = .systemGray3
             siwgButton.layer.cornerRadius = 6.0
             
             gTitleView.font = UIFont.systemFont(ofSize: CGFloat(50.0 * 0.38), weight: .medium)
@@ -227,11 +227,11 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
             siweButton.addSubview(iconView)
             siweButton.addSubview(titleView)
                 
-            iconView.image = UIImage(systemName: "envelope")?.withTintColor(.blue, renderingMode: .alwaysOriginal)
+            iconView.image = UIImage(systemName: "envelope")?.withTintColor(.label, renderingMode: .alwaysOriginal)
             //iconView.tintColor = UIColor.systemGreen
             titleView.text = "Sign in with Email"
             
-            siweButton.backgroundColor = hexStringToUIColor(hex: "#d8d8d8")
+            siweButton.backgroundColor = .systemGray6
             siweButton.layer.cornerRadius = 6.0
             
             titleView.font = UIFont.systemFont(ofSize: CGFloat(50.0 * 0.38), weight: .medium)

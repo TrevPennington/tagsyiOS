@@ -173,7 +173,7 @@ class SignInWithEmailVC: UIViewController, UITextFieldDelegate {
            }
         
            createAccountOrHasAccountButton.titleLabel?.font = sansTitleStyle
-           createAccountOrHasAccountButton.setTitleColor(.blue, for: .normal)
+           createAccountOrHasAccountButton.setTitleColor(.systemGreen, for: .normal)
            createAccountOrHasAccountButton.translatesAutoresizingMaskIntoConstraints = false
         
            NSLayoutConstraint.activate([
@@ -277,7 +277,7 @@ class SignInWithEmailVC: UIViewController, UITextFieldDelegate {
             }
             
             forgotPasswordButton.titleLabel?.font = sansTitleStyle
-            forgotPasswordButton.setTitleColor(.blue, for: .normal)
+            forgotPasswordButton.setTitleColor(.systemGreen, for: .normal)
             forgotPasswordButton.translatesAutoresizingMaskIntoConstraints = false
             
             NSLayoutConstraint.activate([
